@@ -1,0 +1,76 @@
+<template>
+    <div></div>
+</template>
+
+<script>
+    import DotObject from 'dot-object';
+
+    export default {
+        props: {
+            summary: {
+                type: String
+            },
+            params: {
+                type: Object
+            }
+        },
+        prop: ['value'],
+        async created() {
+            if (this.summary) {
+                this.summaryObject = this.$uncle.getSummary(this.summary);
+                this.fieldsList = this.summaryObject.getFields();
+                this.groupsList = this.summaryObject.getGroups();
+                this.actionsList = this.summaryObject.getActions();
+                this.initValue();
+            }
+            await this.loadItem();
+        },
+        data() {
+            return {
+                summaryValue: this.value || {},
+                summaryObject: {},
+                fieldsList: [],
+                groupsList: [],
+                actionsList: [],
+                item: null,
+            }
+        },
+        methods: {
+            initValue() {
+                let summaryValue = {};
+                for (let f in this.fieldsList) {
+                    let field = this.fieldsList[f];
+                    summaryValue[field.name] = field.getDefault();
+                }
+                this.summaryValue = summaryValue;
+            },
+            triggerInput() {
+                this.$emit('input', this.summaryValue);
+            },
+            async loadItem() {
+                var item = {};
+                if (!this.item) {
+                    item = await this.summaryObject.setParams(this.params).getItem();
+                } else {
+                    item = this.item;
+                }
+                this.item = item;
+            },
+            getItemValue(item, fieldName) {
+                return DotObject.pick(fieldName, item).toString();
+            },
+            getValue(item, type, name) {
+                if (type == 'text') {
+                    return this.getItemValue(item, name);
+                } else {
+                    return item[name];
+                }
+            }
+        },
+        watch: {
+            summaryValue: function (val) {
+                this.$emit('input', this.summaryValue);
+            }
+        }
+    } 
+</script>
