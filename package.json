@@ -1,12 +1,17 @@
 {
-  "name": "uncle-lib",
+  "name": "uncle-vue",
   "version": "1.0.0",
-  "description": "",
+  "description": "An Uncle implementation for vue",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "keywords": [
+    "uncle",
+    "vue",
+    "erp"
+  ],
+  "author": "Guglielmo Seminara",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.0",
@@ -14,5 +19,6 @@
     "dot-object": "^1.9.0",
     "moment": "^2.24.0",
     "vue-async-computed": "^3.7.0"
-  }
+  },
+  "homepage": "https://github.com/guglielmoseminara/uncle-vue"
 }
