@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import { FilterField } from '../../index';
+    import { FilterField } from './index';
     import DotObject from 'dot-object';
 
     export default {
