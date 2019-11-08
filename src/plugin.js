@@ -1,4 +1,4 @@
-import { Loader } from './index';
+import { Loader } from '../index';
 
 export default {
     install(Vue, options) {
@@ -28,7 +28,7 @@ export default {
                 getSummary: function(summaryName) {
                     return app.getSummary(summaryName);
                 },
-                initRoutes: function() {
+                getRoutes: function() {
                     var routes = app.getRoutes();
                     routes = routes.map((route) => {
                         route.url = route.url.split('/').map((routeFragment) => {
@@ -40,15 +40,13 @@ export default {
                         }).join('/');
                         return {
                             path: route.url,
-                            component: require('./views/'+route.view.name+'.vue').default,
                             name: route.name,
                             props: {view: route.view.name}
                         }
                     });
-                    options.router.addRoutes(routes);
+                    return routes;
                 }
             }
         }();
-        Vue.prototype.$uncle.initRoutes();
     }
 }

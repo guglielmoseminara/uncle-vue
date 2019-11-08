@@ -70,3 +70,4 @@ export { default as SummaryFieldAbstractComponent } from './src/components/Summa
 export { default as SummaryFieldArrayComponent } from './src/components/SummaryFieldArray.vue';
 export { default as SummaryFieldObjectComponent } from './src/components/SummaryFieldObject.vue';
 export { default as SummaryFieldEnumComponent } from './src/components/SummaryFieldEnum.vue';
+export { default as UncleVuePlugin } from './src/plugin';
