@@ -35,7 +35,7 @@ export default class App extends BaseElement {
     }
 
     getRoutes() {
-        const routes = this.appEl.querySelectorAll('routes route');
+        const routes = this.appEl.querySelectorAll(':scope > routes > route');
         return Array.from(routes).map((route) => {
             return this.builder.getRoute(this.appEl, route.getAttribute('name'));
         });

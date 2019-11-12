@@ -4,7 +4,6 @@
 
 <script>
     import moment from 'moment';
-    import DotObject from 'dot-object';
 
     export default {
         props: {

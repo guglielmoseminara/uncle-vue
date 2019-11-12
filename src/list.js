@@ -63,7 +63,6 @@ export default class List extends BaseElement {
         this.params.sortedBy = this.orders.map((order) => {
             return order.direction;
         }).join(',');
-        console.log(this.params);
         return this.params;
     }
 

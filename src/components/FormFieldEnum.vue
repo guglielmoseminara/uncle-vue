@@ -3,7 +3,6 @@
 </template>
 
 <script>
-    import DotObject from 'dot-object';
     export default {
         props: {
             fieldObject: {
@@ -24,15 +23,8 @@
                 selectValue: this.value,
             }
         },
-        // computed: {
-        //     selectValue: {
-        //         get() { return this.value },
-        //         set(selectValue) { this.$emit('input', selectValue) }
-        //     }
-        // },
         methods: {
-            triggerInput(event) {
-                console.log('----->',event);
+            triggerInput() {
                 this.$emit('input', this.selectValue);
             },
         }

@@ -21,7 +21,6 @@
                 this.fieldsList = this.formObject.getFields();
                 this.groupsList = this.formObject.getGroups();
                 this.actionsList = this.formObject.getActions();
-                console.log(this.actionsList);
             }
             await this.loadItem();
             this.initValue();
@@ -36,7 +35,7 @@
             }
         },
         methods: {
-            initValue(value) {
+            initValue() {
                 this.formValue = {}
                 for (let f in this.fieldsList) {
                     let field = this.fieldsList[f];
@@ -78,7 +77,7 @@
             }
         },
         watch: {
-            formValue: function (val) {
+            formValue: function () {
                 this.$emit('input', this.formValue);
             }
         }

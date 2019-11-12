@@ -7,12 +7,20 @@ export default class Route extends BaseElement {
     }
 
     build(parentEl, routeName) {
-        this.routeEl = parentEl.querySelector(`routes route[name="${routeName}"]`);
+        this.routeEl = parentEl.querySelector(`routes > route[name="${routeName}"]`);
         this.url = this.routeEl.getAttribute('url');
         this.method = this.routeEl.getAttribute('method');
         this.request = this.builder.getRequest(this.routeEl.getAttribute('request'));
         this.name = routeName;
         this.view = this.builder.getView(this.routeEl.getAttribute('view'));
         return this;
+    }
+
+    getRoutes() {
+        const routes = this.routeEl.querySelectorAll(':scope > routes > route');
+        this.routes = Array.from(routes).map((route) => {
+            return this.builder.getRoute(this.routeEl, route.getAttribute('name'));
+        });
+        return this.routes;
     }
 }

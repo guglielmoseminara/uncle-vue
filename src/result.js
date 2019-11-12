@@ -9,7 +9,6 @@ export default class Result {
     }
 
     getTotal() {
-        console.log(this._resultObj);
         return this._resultObj.pagination.total;
     }
 

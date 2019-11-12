@@ -3,7 +3,6 @@ import {
     Nav, 
     Route,
     NavItem,
-    Item,
     View,
     List,
     Rows,

@@ -70,16 +70,16 @@
             }
         },
         watch: {
-            items: async function(val) {
+            items: async function() {
                 await this.loadItems();
             },
-            selectedPage: async function(val) {
+            selectedPage: async function() {
                 await this.loadItems();
             },
-            paramsObject: _.debounce(function(val) {
+            paramsObject: _.debounce(function() {
                 this.loadItems();
             }, 500),
-            ordersList: async function(val) {
+            ordersList: async function() {
                 await this.loadItems();
             }
         }

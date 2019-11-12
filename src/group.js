@@ -16,7 +16,6 @@ export default class Group extends BaseElement {
 
     getFields() {
         const fields = this.groupEl.querySelectorAll('fields > field');
-        console.log(fields);
         this.fields = Array.from(fields).map((field) => {
             return this.builder.getField(this.groupEl, field.getAttribute('name'));
         });

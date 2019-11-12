@@ -28,23 +28,32 @@ export default {
                 getSummary: function(summaryName) {
                     return app.getSummary(summaryName);
                 },
-                getRoutes: function() {
-                    var routes = app.getRoutes();
-                    routes = routes.map((route) => {
-                        route.url = route.url.split('/').map((routeFragment) => {
-                            let routeFragmentMatch = routeFragment.match(/\{.+?\}/g);
-                            if (routeFragmentMatch && routeFragmentMatch.length > 0) {
-                                return ':'+routeFragmentMatch[0].slice(1,-1);
-                            }
-                            return routeFragment;
-                        }).join('/');
+                _parseRoutes: function(routes) {
+                    return routes.map((route) => {
+                        if (route.url != '/') {
+                            route.url = route.url.split('/').map((routeFragment) => {
+                                let routeFragmentMatch = routeFragment.match(/\{.+?\}/g);
+                                if (routeFragmentMatch && routeFragmentMatch.length > 0) {
+                                    return ':'+routeFragmentMatch[0].slice(1,-1);
+                                }
+                                return routeFragment;
+                            }).join('/');    
+                        }
+                        var children = route.getRoutes();
+                        if (children.length > 0) {
+                            children = this._parseRoutes(children);
+                        }
                         return {
                             path: route.url,
                             name: route.name,
+                            children: children,
                             props: {view: route.view.name}
                         }
                     });
-                    return routes;
+                },
+                getRoutes: function() {
+                    var routes = app.getRoutes();
+                    return this._parseRoutes(routes);
                 }
             }
         }();

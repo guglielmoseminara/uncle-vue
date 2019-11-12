@@ -30,10 +30,10 @@
                 let filtersValue = {};
                 for (let f in this.fieldsList) {
                     let field = this.fieldsList[f];
-                    if (this.fieldsList[f].type == 'boolean' || this.fieldsList[f].type == 'text') {
-                        filtersValue[this.fieldsList[f].name] = this.fieldsList[f].value == '1';
+                    if (field.type == 'boolean' || field.type == 'text') {
+                        filtersValue[field.name] = field.value == '1';
                     } else {
-                        filtersValue[this.fieldsList[f].name] = this.fieldsList[f].value;
+                        filtersValue[field.name] = field.value;
                     }
                 }
                 this.filtersValue = filtersValue;

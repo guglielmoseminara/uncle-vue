@@ -32,7 +32,6 @@ export default class Summary extends BaseElement {
     getActions() {
         const actions = this.summaryEl.querySelectorAll('actions action-item');
         this.actions = Array.from(actions).map((action) => {
-            console.log(action.getAttribute('name'));
             return this.builder.getActionItem(this.summaryEl, action.getAttribute('name'));
         });
         return this.actions;

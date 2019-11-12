@@ -68,7 +68,7 @@
             }
         },
         watch: {
-            summaryValue: function (val) {
+            summaryValue: function () {
                 this.$emit('input', this.summaryValue);
             }
         }

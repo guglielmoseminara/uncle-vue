@@ -43,7 +43,6 @@ export default class Http {
     }
 
     _handleError(error) {
-        console.log(error);
         return error;
     }
   
