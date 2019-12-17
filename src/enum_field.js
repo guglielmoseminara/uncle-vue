@@ -22,4 +22,14 @@ export default class EnumField extends Field {
         return this.options;
     }
 
+    getItemValue(name) {
+        const optionsList = this.getOptions();
+        for (let optIndex = 0; optIndex < optionsList.length; optIndex++) {
+            let opt = optionsList[optIndex];
+            if (opt.name == name) {
+                return opt.text;
+            }
+        }
+    }
+
 }

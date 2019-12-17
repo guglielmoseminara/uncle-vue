@@ -8,6 +8,7 @@ export default class Rows extends BaseElement {
 
     build(parentEl) {
         this.rowsEl = parentEl.querySelector('rows');
+        this.parentEl = parentEl;
         return this.rowsEl ? this : null;
     }
 

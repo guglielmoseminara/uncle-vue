@@ -68,4 +68,20 @@ export default class Form extends BaseElement {
         this.params = params;
         return this;
     }
+
+    parse() {
+        return Array.from(this.formEl.children).map((child) => {
+            if (child.tagName == 'actions') {
+                return {tagName:'actions', element:this.getActions()};
+            } else if (child.tagName == 'item') {
+                return {tagName:'item'};
+            } else if (child.tagName == 'group') {
+                return {tagName:'group', element:this.builder.getGroup(this.formEl, child.getAttribute('name'))};
+            } else if (child.tagName == 'fields') {
+                return {tagName:'fields', element:this.getFields()};
+            } else {
+                return {tagName:child.tagName, element:this.builder.build(child.tagName, child.getAttribute('name'))};
+            }
+        });
+    }
 }

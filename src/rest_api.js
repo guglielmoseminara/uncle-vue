@@ -1,4 +1,4 @@
-import { Api, Http } from './index';
+import { Api, Http, Utils } from './index';
 import DotObject from 'dot-object';
 import _ from 'lodash';
 
@@ -18,9 +18,23 @@ export default class RestApi extends Api {
         const resource = this.apiEl.querySelector(`resources resource[name='${this.method.resource}']`);
         const route = this.builder.getRoute(resource, resource.querySelector(`routes route[name='${this.method.route}']`).getAttribute('name'));
         const replacedUrlObj = this._replaceUrlVariables(route.url);
-        const data = route.method == 'get' ? {} : _.omit(this.request, replacedUrlObj.replacedParams);
+        const data = this._buildData(route, replacedUrlObj.replacedParams);
         const response = await this.http[route.method](this._buildUrl(route, replacedUrlObj), data);
         return this.response ? this.response.format(response) : response;
+    }
+
+    _buildData(route, replacedParams) {
+        var encode = false;
+        var request = this.request;
+        if (request instanceof FormData) {
+            request = Utils.decodeFormData(request);
+            encode = true;
+        }
+        var data = route.method == 'get' ? {} : _.omit(request, replacedParams);
+        if (encode) {
+            data = Utils.encodeFormData(data);
+        }
+        return data;
     }
 
     _buildUrl(route, replacedUrlObj) {
@@ -35,13 +49,18 @@ export default class RestApi extends Api {
             if (keyArr.length > 1) {
                 let item = {};
                 item[lastPart] = this.request[k];
-                previous[keyArr[0]] = item;
-            } else {
-                if (typeof this.request[k] == 'object') {
-                    previous[k] = DotObject.dot(this.request[k]);
-                } else {
-                    previous[k] = this.request[k];
+                if (!previous[keyArr[0]]) {
+                    previous[keyArr[0]] = {};
                 }
+                previous[keyArr[0]] = {...previous[keyArr[0]], ...item};
+            } else {
+                let item = {}
+                if (typeof this.request[k] == 'object') {
+                    item[k] = DotObject.dot(this.request[k]);
+                } else {
+                    item[k] = this.request[k];
+                }
+                previous = {...previous, ...item};
             }
             return previous;
         }, {});
@@ -64,11 +83,15 @@ export default class RestApi extends Api {
 
     _replaceUrlVariables(url) {
         let replacedParams = [];
-        for (let reqParam in this.request) {
+        var request = this.request;
+        if (request instanceof FormData) {
+            request = Utils.decodeFormData(request);
+        }
+        for (let reqParam in request) {
             if (url.indexOf(`{${reqParam}}`) != -1) {
                 replacedParams.push(reqParam);
             }
-            url = url.replace(`{${reqParam}}`, this.request[reqParam]);
+            url = url.replace(`{${reqParam}}`, request[reqParam]);
         }
         return {
             url: url,

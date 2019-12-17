@@ -14,6 +14,10 @@ export default class App extends BaseElement {
         return this.builder.getNav(navName);
     }
 
+    getAction(actionName) {
+        return this.builder.getAction(actionName);
+    }
+
     getView(viewName) {
         return this.builder.getView(viewName);
     }

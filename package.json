@@ -17,6 +17,7 @@
     "axios": "^0.19.0",
     "collections": "^5.1.9",
     "dot-object": "^1.9.0",
+    "jexl": "^2.2.2",
     "moment": "^2.24.0",
     "vue-async-computed": "^3.7.0"
   },

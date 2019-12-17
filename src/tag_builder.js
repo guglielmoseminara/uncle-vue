@@ -3,6 +3,7 @@ import {
     Form,
     Filter,
     Summary,
+    Group,
 } from './index';
 
 export default class TagBuilder {
@@ -13,10 +14,12 @@ export default class TagBuilder {
             'form': Form,
             'filter': Filter,
             'summary': Summary,
+            'group': Group,
         }
     }
 
     build(tag) {
+        console.log(tag);
         var module = this.tagsMap[tag];
         return new module();
     }

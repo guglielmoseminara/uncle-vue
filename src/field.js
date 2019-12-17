@@ -18,6 +18,8 @@ export default class Field extends BaseElement {
         this.sortable = this.fieldEl.getAttribute('sortable');
         this.widget = this.fieldEl.getAttribute('widget');
         this.format = this.fieldEl.getAttribute('format');
+        this.placeholder = this.fieldEl.getAttribute('placeholder');
+        this.icon = this.fieldEl.getAttribute('icon');
         return this;
     }
 
@@ -27,6 +29,15 @@ export default class Field extends BaseElement {
             return this.builder.getField(this.fieldEl, field.getAttribute('name'));
         });
         return this.fields;
+    }
+
+    getLabel() {
+        const label = this.fieldEl.querySelector(':scope > label');
+        this.label = null;
+        if (label) {
+            this.label = this.builder.getLabel(this.fieldEl);
+        }
+        return this.label;
     }
 
     getDefault() {

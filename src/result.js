@@ -12,4 +12,8 @@ export default class Result {
         return this._resultObj.pagination.total;
     }
 
+    get() {
+        return this._resultObj;
+    }
+
 }

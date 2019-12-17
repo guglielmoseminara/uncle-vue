@@ -15,6 +15,7 @@ export default class Response extends BaseElement {
     format(response) {
         const elements = this.responseEl.children;
         var newResponse = {};
+        console.log(response);
         this._formatFields(elements, response, newResponse);
         return new Result(newResponse);
     }

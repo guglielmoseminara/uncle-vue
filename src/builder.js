@@ -16,6 +16,9 @@ import {
     TagBuilder,
     ApiBuilder,
     ItemBuilder,
+    LabelBuilder,
+    ServiceManager,
+    ParamsManager,
     Tab,
     Form,
     Page,
@@ -36,6 +39,9 @@ export default class Builder {
         this.tagBuilder = new TagBuilder();
         this.apiBuilder = new ApiBuilder();
         this.itemBuilder = new ItemBuilder();
+        this.labelBuilder = new LabelBuilder();
+        this.serviceManager = new ServiceManager();
+        this.paramsManager = new ParamsManager(this.serviceManager);
         this.sdk = new Sdk();
     }
 
@@ -143,8 +149,16 @@ export default class Builder {
         return this._getElement(new Request(), requestName);
     }
 
+    getLabel(parentEl) {
+        return this._getElement(this.labelBuilder.getLabel(parentEl), parentEl);
+    }
+
     _getElement(instance, ...params) {
-        return instance.setMainElement(this.mainEl).setBuilder(this).build(...params);
+        return instance.setMainElement(this.mainEl)
+                .setBuilder(this)
+                .setServiceManager(this.serviceManager)
+                .setParamsManager(this.paramsManager)
+                .build(...params);
     }
 
 }

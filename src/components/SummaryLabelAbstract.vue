@@ -3,14 +3,10 @@
 </template>
 
 <script>
-    import { ValueParserMixin } from '../index';
-    
     export default {
-        mixins: [ValueParserMixin],
         props: {
-            fieldObject: {
-                type: Object,
-                required: true
+            labelObject: {
+                type: Object
             },
             type: {
                 type: String,
@@ -18,11 +14,7 @@
             },
             value: {
                 type: [String, Number, Object, Array],
-                required: true
             }
-        },
-        created() {
-            this.fieldsList = this.fieldObject.getFields();
         }
     }
 </script>

@@ -3,9 +3,10 @@
 </template>
 
 <script>
-    import DotObject from 'dot-object';
-
+    import { ValueParserMixin } from '../index';
+    
     export default {
+        mixins: [ValueParserMixin],
         props: {
             summary: {
                 type: String
@@ -20,6 +21,7 @@
                 this.summaryObject = this.$uncle.getSummary(this.summary);
                 this.fieldsList = this.summaryObject.getFields();
                 this.groupsList = this.summaryObject.getGroups();
+                this.createLayout();
                 this.actionsList = this.summaryObject.getActions();
                 this.initValue();
             }
@@ -47,6 +49,11 @@
             triggerInput() {
                 this.$emit('input', this.summaryValue);
             },
+            createLayout() {
+                for (var g = 0; g < this.groupsList.length; g++) {
+                    console.log(this.groupsList[g]);
+                }
+            },
             async loadItem() {
                 var item = {};
                 if (!this.item) {
@@ -55,16 +62,6 @@
                     item = this.item;
                 }
                 this.item = item;
-            },
-            getItemValue(item, fieldName) {
-                return DotObject.pick(fieldName, item).toString();
-            },
-            getValue(item, type, name) {
-                if (type == 'text') {
-                    return this.getItemValue(item, name);
-                } else {
-                    return item[name];
-                }
             }
         },
         watch: {

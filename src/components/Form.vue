@@ -4,6 +4,7 @@
 
 <script>
     import DotObject from 'dot-object';
+    import { Utils } from '../index';
 
     export default {
         props: {
@@ -28,6 +29,7 @@
         data() {
             return {
                 formValue: this.value || {},
+                formDataValue: this.formDataValue,
                 formObject: {},
                 fieldsList: [],
                 groupsList: [],
@@ -42,6 +44,7 @@
                     let value = this.getValue(this.item, field.type, field.name);
                     this.formValue[field.name] = this.item && value ? value : (field.bind ? this.getDotField(this, field.bind) : field.getDefault());
                 }
+                this.formDataValue = Utils.encodeFormData(this.formValue);
             },
 
             getDotField(item, fieldName) {
@@ -64,7 +67,7 @@
             },
             async loadItem() {
                 var item = {};
-                if (!this.item) {
+                if (!this.item && this.form) {
                     item = await this.formObject.setParams(this.params).getItem();
                 } else {
                     item = this.item;
@@ -74,6 +77,16 @@
             },
             formUpdate(field, value) {
                 this.formValue[field.name] = value;
+                this.setFormImages();
+                this.formDataValue = Utils.encodeFormData(this.formValue);
+            },
+            setFormImages() {
+                for (var fieldName in this.formValue) {
+                    const value = this.formValue[fieldName];
+                    if (value && value.file) {
+                        this.formValue[fieldName] = value.file;
+                    }
+                }
             }
         },
         watch: {

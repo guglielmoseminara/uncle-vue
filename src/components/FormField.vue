@@ -9,8 +9,8 @@
             validator: {
                 type: String
             },
-            name: {
-                type: String
+            fieldObject: {
+                type: Object
             },
             value: {}
         },
@@ -20,6 +20,9 @@
         methods: {
             triggerInput() {
                 this.$emit('input', this.formValue);
+            },
+            getIcon() {
+                return this.$iconsProvider.get(this.fieldObject.icon);
             }
         },
         data() {

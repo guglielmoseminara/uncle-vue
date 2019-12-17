@@ -13,6 +13,7 @@ export default class Route extends BaseElement {
         this.request = this.builder.getRequest(this.routeEl.getAttribute('request'));
         this.name = routeName;
         this.view = this.builder.getView(this.routeEl.getAttribute('view'));
+        this.action = this.routeEl.getAttribute('action') ? this.builder.getAction(this.routeEl.getAttribute('action')) : null;
         return this;
     }
 

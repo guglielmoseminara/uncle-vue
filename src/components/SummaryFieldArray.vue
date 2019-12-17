@@ -3,9 +3,10 @@
 </template>
 
 <script>
-    import DotObject from 'dot-object';
-
+    import { ValueParserMixin } from '../index';
+    
     export default {
+        mixins: [ValueParserMixin],
         props: {
             fieldObject: {
                 type: Object,
@@ -18,18 +19,6 @@
         },
         created() {
             this.fieldsList = this.fieldObject.getFields();
-        },
-        methods: {
-            getItemValue(item, fieldName) {
-                return DotObject.pick(fieldName, item).toString();
-            },
-            getValue(item, type, name) {
-                if (type == 'text') {
-                    return this.getItemValue(item, name);
-                } else {
-                    return item[name];
-                }
-            }
         }
     }
 </script>

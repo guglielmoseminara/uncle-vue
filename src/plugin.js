@@ -1,14 +1,23 @@
-import { Loader } from '../index';
+import { Loader, ServiceRouter, Cookie} from '../index';
 
 export default {
     install(Vue, options) {
         var loader = new Loader();
         loader.init();
         const app = loader.getParser().getApp(options.app);
+        const serviceRouter = new ServiceRouter(options.router);
+        app.serviceManager.setRouter(serviceRouter);
+        app.serviceManager.setCookie(Cookie);
         Vue.prototype.$uncle = function() {
             return {
+                getApp: function() {
+                    return app;
+                },
                 getNav: function(navName) {
                     return app.getNav(navName);
+                },
+                getAction: function(actionName) {
+                    return app.getAction(actionName);
                 },
                 getView: function(viewName) {
                     return app.getView(viewName);
@@ -43,12 +52,14 @@ export default {
                         if (children.length > 0) {
                             children = this._parseRoutes(children);
                         }
-                        return {
+                        let routeParams = {
                             path: route.url,
                             name: route.name,
                             children: children,
-                            props: {view: route.view.name}
-                        }
+                            action: route.action,
+                            props: {view: route.view.name},
+                        };
+                        return routeParams;
                     });
                 },
                 getRoutes: function() {

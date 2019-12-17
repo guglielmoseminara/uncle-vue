@@ -9,20 +9,20 @@
                 type: Object,
                 required: true
             },
-            paramsObject: {
-                type: Object
-            }
+            paramsObject: {}
         },
         methods: {
-            execute() {
+            async execute() {
                 const confirmFlag = this.actionItemObject.action.confirm;
                 let executeFlag = true;
                 if (confirmFlag) {
                     executeFlag = confirm('Are you sure?');
                 }
                 if (executeFlag) {
-                    this.actionItemObject.action.execute();
+                    return await this.actionItemObject.action.execute(this.params);
                 }
+                alert();
+                this.$forceUpdate();
             }
         },
         computed: {

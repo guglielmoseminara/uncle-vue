@@ -3,29 +3,19 @@
 </template>
 
 <script>
-    import moment from 'moment';
-
+    import { ValueParserMixin } from '../index';
+    
     export default {
+        mixins: [ValueParserMixin],
         props: {
             fieldObject: {
                 type: Object,
                 required: true
             },
             value: {
-                type: Number,
+                type: String,
                 required: true
             }
-        },
-        methods: {
-            getFormattedDatetime() {
-                let mom;
-                switch(this.fieldObject.format) {
-                    case 'hh:mm':
-                        mom = moment().startOf('day').add(this.value, 'minutes').format('HH:mm')
-                        break;
-                }
-                return mom;
-            }
-        },
+        }
     }
 </script>

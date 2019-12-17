@@ -3,26 +3,16 @@
 </template>
 
 <script>
-    import { ValueParserMixin } from '../index';
-    
     export default {
-        mixins: [ValueParserMixin],
         props: {
-            fieldObject: {
+            labelObject: {
                 type: Object,
-                required: true
-            },
-            type: {
-                type: String,
                 required: true
             },
             value: {
                 type: [String, Number, Object, Array],
                 required: true
             }
-        },
-        created() {
-            this.fieldsList = this.fieldObject.getFields();
         }
     }
 </script>

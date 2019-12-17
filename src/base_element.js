@@ -11,4 +11,14 @@ export default class BaseElement {
         this.builder = builder;
         return this;
     }
+
+    setServiceManager(serviceManager) {
+        this.serviceManager = serviceManager;
+        return this;
+    }
+
+    setParamsManager(paramsManager) {
+        this.paramsManager = paramsManager;
+        return this;
+    }
 }

@@ -1,4 +1,4 @@
-import { Action } from './index';
+import { Action, Utils } from './index';
 
 export default class ActionSdk extends Action { 
 
@@ -14,24 +14,29 @@ export default class ActionSdk extends Action {
         return this;
     }
 
-    getParams() {
-        const params = this.actionEl.querySelectorAll('params param');
-        return Array.from(params).map((param) => {
-            return {
-                name: param.getAttribute('name'),
-                bind: param.getAttribute('bind'),
-                value: param.getAttribute('value'),
-            }
-        });
-    }
-
     setRequestParams(request) {
         this.request = request; 
     }
 
-    async execute() {
+    async executeChild(params = {}) {
         const sdk = this.builder.getSdk();
-        return await sdk.execute(this.api, this.method, this.request);
+        params = this._buildParams(params);
+        return await sdk.execute(this.api, this.method, params);
+    }
+
+    _buildParams(params) {
+        var request = this.request;
+        var encode = false;
+        if (request instanceof FormData) {
+            request = Utils.decodeFormData(request);
+            encode = true;
+        }
+        params = {...params, ...request}
+        params = {...params, ...this.paramsManager.buildParams(this.getParams(), params)}
+        if (encode) {
+            params = Utils.encodeFormData(params);
+        }
+        return params;
     }
 
 }

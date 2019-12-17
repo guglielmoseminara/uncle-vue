@@ -35,6 +35,19 @@ export default class Http {
         }
     }
 
+    async delete(url, data = {}, headers = {}) {
+        const config = this._buildConfig(headers);
+        config.params = {
+            '_method': 'DELETE'
+        };
+        try {
+            let res = await axios.post(url, data, config);
+            return res.data;
+        } catch(e) {
+            return this._handleError(e);
+        }
+    }
+
     _buildConfig(headers = {}) {
         var config = {};
         config.headers = headers;
@@ -43,7 +56,7 @@ export default class Http {
     }
 
     _handleError(error) {
-        return error;
+        return error.response.data;
     }
   
 

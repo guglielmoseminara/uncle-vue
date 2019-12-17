@@ -9,6 +9,7 @@ export default class ItemAction extends Item {
 
     build(parentEl) {
         super.build(parentEl);
+        this.parentEl = parentEl;
         this.valueField = this.itemEl.getAttribute('value-field');
         this.textField = this.itemEl.getAttribute('text-field');
         return this;
