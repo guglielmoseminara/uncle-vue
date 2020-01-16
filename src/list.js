@@ -21,7 +21,7 @@ export default class List extends BaseElement {
     }
 
     getFields() {
-        const fields = this.listEl.querySelectorAll('fields field');
+        const fields = this.listEl.querySelectorAll('fields > field');
         this.fields = Array.from(fields).map((field) => {
             return this.builder.getField(this.listEl, field.getAttribute('name'));
         });

@@ -26,6 +26,7 @@ import {
     Resource,
     Response,
     Request,
+    Header,
     Summary,
     Modal,
  } from './index';
@@ -147,6 +148,10 @@ export default class Builder {
 
     getRequest(requestName) {
         return this._getElement(new Request(), requestName);
+    }
+
+    getHeader(parentEl, headerName) {
+        return this._getElement(new Header(), parentEl, headerName);
     }
 
     getLabel(parentEl) {

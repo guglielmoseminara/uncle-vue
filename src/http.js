@@ -2,8 +2,9 @@ import axios from 'axios';
 
 export default class Http { 
 
-    async get(url, headers = {}) {
+    async get(url, data = {}, headers = {}) {
         const config = this._buildConfig(headers);
+        console.log(config);
         try {
             const res = await axios.get(url, config);
             return res.data;

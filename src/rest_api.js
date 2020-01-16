@@ -19,7 +19,8 @@ export default class RestApi extends Api {
         const route = this.builder.getRoute(resource, resource.querySelector(`routes route[name='${this.method.route}']`).getAttribute('name'));
         const replacedUrlObj = this._replaceUrlVariables(route.url);
         const data = this._buildData(route, replacedUrlObj.replacedParams);
-        const response = await this.http[route.method](this._buildUrl(route, replacedUrlObj), data);
+        const headers = this._buildHeaders(route);
+        const response = await this.http[route.method](this._buildUrl(route, replacedUrlObj), data, headers);
         return this.response ? this.response.format(response) : response;
     }
 
@@ -97,5 +98,32 @@ export default class RestApi extends Api {
             url: url,
             replacedParams: replacedParams,
         };
+    }
+
+    _buildHeaders(route) {
+        if (route.request) {
+            console.log('request', route.request);
+            const headers = route.request.getHeaders();
+            return Array.from(headers).reduce((obj, header) => { 
+                if (this.request[header.name] || this.request[header.bind]) {
+                    let requestParamName = header.name;
+                    if (this.request[header.bind]) {
+                        requestParamName = header.bind;
+                    }
+                    let requestParam = this.request[requestParamName];
+                    if (header.type == 'bearer') {
+                        obj[header.name] = 'Bearer ' + requestParam;
+                    } else {
+                        obj[header.name] = requestParam;
+                    }
+                    delete this.request[requestParamName];
+                } else {
+                    obj[header.name] = '';
+                }
+                return obj;
+            }, {});    
+        } else {
+            return {};
+        }
     }
 }

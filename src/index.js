@@ -48,6 +48,7 @@ export { default as Resource } from './resource';
 export { default as Response } from './response';
 export { default as Result } from './result';
 export { default as Request } from './request';
+export { default as Header } from './header';
 export { default as ServiceRouter } from './vue/service_router';
 export { default as ParamsManager } from './params_manager';
 export { default as Utils } from './utils';

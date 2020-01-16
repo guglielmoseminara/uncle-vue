@@ -20,6 +20,14 @@ export default class Request extends BaseElement {
         return this.fields;
     }
 
+    getHeaders() {
+        const headers = this.requestEl.querySelectorAll('headers header');
+        this.headers = Array.from(headers).map((header) => {
+            return this.builder.getHeader(this.requestEl, header.getAttribute('name'));
+        });
+        return this.headers;
+    }
+
     setPage(page) {
         this.page = page;
         return this;

@@ -55,6 +55,7 @@ export { default as ViewComponent } from './src/components/View.vue';
 export { default as SearchTextComponent } from './src/components/SearchText.vue';
 export { default as ListComponent } from './src/components/List.vue';
 export { default as ListFieldAbstractComponent } from './src/components/ListFieldAbstract.vue';
+export { default as ListFieldArrayComponent } from './src/components/ListFieldArray.vue';
 export { default as PaginationComponent } from './src/components/Pagination.vue';
 export { default as FilterComponent } from './src/components/Filter.vue';
 export { default as FilterFieldComponent } from './src/components/FilterField.vue';
