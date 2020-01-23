@@ -8,9 +8,6 @@
             selected: {
                 type: Boolean
             },
-            text: {
-                type: String
-            },
             fieldObject: {
                 type: Object
             },

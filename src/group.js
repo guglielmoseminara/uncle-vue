@@ -21,9 +21,5 @@ export default class Group extends BaseElement {
         });
         return this.fields;
     }
-    getTitle() {
-        const title = this.groupEl.getAttribute('title');
-        return title;
-    }
 
 } 

@@ -49,18 +49,14 @@ export default class RestApi extends Api {
             const lastPart = keyArr.slice(1, keyArr.length).join('.');
             if (keyArr.length > 1) {
                 let item = {};
-                item[lastPart] = this.request[k];
+                item[lastPart] = this._buildFieldRequest(this.request[k]);
                 if (!previous[keyArr[0]]) {
                     previous[keyArr[0]] = {};
                 }
                 previous[keyArr[0]] = {...previous[keyArr[0]], ...item};
             } else {
                 let item = {}
-                if (typeof this.request[k] == 'object') {
-                    item[k] = DotObject.dot(this.request[k]);
-                } else {
-                    item[k] = this.request[k];
-                }
+                item[k] = this._buildFieldRequest(this.request[k]);
                 previous = {...previous, ...item};
             }
             return previous;
@@ -80,6 +76,43 @@ export default class RestApi extends Api {
                 paramKey + '=' + params[paramKey];
         }).join('&');
         return queryString;
+    }
+
+    _getLastNestedValue(o) { 
+        return Object.keys(o).reduce(function (r, k) { 
+          return typeof o[k] === 'object' ? this._getLastNestedValue(o[k]) : (r[k] = o[k], r) 
+        }.bind(this), {});
+    }
+
+    _getkeys = function(obj, prefix){
+        var keys = Object.keys(obj);
+        prefix = prefix ? prefix + '.' : '';
+        return keys.reduce(function(result, key){
+            if(Object.prototype.toString.call(obj[key]) === '[object Object]'){
+                result = result.concat(this._getkeys(obj[key], prefix + key));
+            }else{
+                result.push(prefix + key);
+            }
+            return result;
+        }.bind(this), []);
+    };
+
+    _buildFieldRequest(field) {
+        var value = field;
+        if (typeof field == 'object') {
+            const keys = this._getkeys(field);
+            value = {};
+            for (let i in keys) {
+                let key = keys[i];
+                let picked = DotObject.pick(key, field);
+                if (Array.isArray(picked)) {
+                    value[key] = picked.join('|');
+                } else {
+                    value[key] = picked;
+                }
+            }
+        } 
+        return value;
     }
 
     _replaceUrlVariables(url) {
@@ -102,7 +135,6 @@ export default class RestApi extends Api {
 
     _buildHeaders(route) {
         if (route.request) {
-            console.log('request', route.request);
             const headers = route.request.getHeaders();
             return Array.from(headers).reduce((obj, header) => { 
                 if (this.request[header.name] || this.request[header.bind]) {

@@ -26,6 +26,7 @@
                 this.initValue();
             }
             await this.loadItem();
+            this.$emit('itemLoaded', this.item);
         },
         data() {
             return {

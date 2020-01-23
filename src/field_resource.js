@@ -12,7 +12,12 @@ export default class FieldResource extends Field {
         return this;
     }
 
-    async getItems() {
+    async getItems(search = null) {
+        if (search) {
+            this.item.setParams({
+                'search': search
+            });
+        }
         const response = await this.item.getItems();
         return response.getData();
     }

@@ -14,6 +14,7 @@ export default class Route extends BaseElement {
         this.name = routeName;
         this.view = this.builder.getView(this.routeEl.getAttribute('view'));
         this.action = this.routeEl.getAttribute('action') ? this.builder.getAction(this.routeEl.getAttribute('action')) : null;
+        this.breadcrumb = this.routeEl.getAttribute('breadcrumb');
         return this;
     }
 

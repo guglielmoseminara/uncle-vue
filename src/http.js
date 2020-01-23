@@ -4,7 +4,6 @@ export default class Http {
 
     async get(url, data = {}, headers = {}) {
         const config = this._buildConfig(headers);
-        console.log(config);
         try {
             const res = await axios.get(url, config);
             return res.data;

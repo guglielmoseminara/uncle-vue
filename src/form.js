@@ -75,8 +75,8 @@ export default class Form extends BaseElement {
                 return {tagName:'actions', element:this.getActions()};
             } else if (child.tagName == 'item') {
                 return {tagName:'item'};
-            } else if (child.tagName == 'group') {
-                return {tagName:'group', element:this.builder.getGroup(this.formEl, child.getAttribute('name'))};
+            } else if (child.tagName == 'groups') {
+                return {tagName:'groups', element:this.getGroups()};
             } else if (child.tagName == 'fields') {
                 return {tagName:'fields', element:this.getFields()};
             } else {

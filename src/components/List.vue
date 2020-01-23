@@ -59,6 +59,28 @@
             },
             getItemValue(item, fieldName) {
                 return DotObject.pick(fieldName, item).toString();
+            },
+            initializeSelectedIndexes(value = false) {
+                if (this.itemsList.length > 0 && this.listObject.selectable) {
+                    for (let listIndex in this.itemsList) {
+                        this.selectedIndexes[this.itemsList[listIndex][this.listObject.selectable_id]] = value;
+                    }
+                }
+                this.appendSelectedToParams();
+            },
+            selectIndex(id, value) {
+                this.selectedIndexes[id] = value;
+                this.appendSelectedToParams();
+            },
+            setSelectedAllValue(value) {
+                this.selectedAll = value;
+            },
+            appendSelectedToParams() {
+                if (this.paramsObject) {
+                    this.paramsObject.ids = Object.keys(this.selectedIndexes).filter((key) => {
+                        return this.selectedIndexes[key] ? key : false
+                    });
+                }
             }
         },
         data() {
@@ -67,6 +89,8 @@
                 selectedPage: 1,
                 totalItems: 0,
                 ordersList: [],
+                selectedAll: false,
+                selectedIndexes: {},
             }
         },
         watch: {
@@ -81,7 +105,13 @@
             }, 500),
             ordersList: async function() {
                 await this.loadItems();
+            },
+            itemsList: function() {
+                this.initializeSelectedIndexes();
+            },
+            selectedAll: function(val) {
+                this.initializeSelectedIndexes(val);
             }
-        }
+        },
     }
 </script>

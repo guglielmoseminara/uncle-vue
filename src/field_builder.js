@@ -13,7 +13,7 @@ export default class FieldBuilder {
             return new ActionListField();    
         } else if (type == 'enum') {
             return new EnumField(); 
-        } else if (type == 'resource') {
+        } else if (type == 'resource' || type == 'resource_many') {
             return new FieldResource(); 
         }
         return new Field();

@@ -13,9 +13,12 @@ export default class List extends BaseElement {
         this.conditions = {};
         this.orders = {};
         this.page = 1;
+        this.selectable = this.listEl.getAttribute('selectable') == 'true';
+        this.selectable_id = this.listEl.getAttribute('selectable-id') || 'id';
         this.pagination = this.builder.getPagination(this.listEl);
         this.item = this.builder.getItem(this.listEl);
         this.rows = this.builder.getRows(this.listEl);
+        this.text = this.listEl.getAttribute('text') || '';
         this.totalItems = 0;
         return this;
     }

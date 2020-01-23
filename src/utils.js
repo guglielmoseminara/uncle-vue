@@ -1,6 +1,11 @@
 export default {
     encodeFormData: function(obj, form, namespace) {
-        var fd = new FormData()
+        var fd;
+        if (form) {
+            fd = form;
+        } else {
+            fd = new FormData()
+        }
         var formKey;
         for(var property in obj) {
             if(obj.hasOwnProperty && obj.hasOwnProperty(property)) {

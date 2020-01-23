@@ -36,6 +36,15 @@ export default class Action extends BaseElement {
         });
     }
 
+    getConditions() {
+        return Array.from(this.actionEl.querySelectorAll('condition')).map((conditionItem) => {
+            return {
+                when: conditionItem.getAttribute('when'),
+                action: this.builder.getAction(conditionItem.getAttribute('action'))
+            }
+        });
+    }
+
     async execute(params = null) {
         const executeResult = await this.executeChild(params);
         const relatedResult = await this._executeRelated(executeResult);

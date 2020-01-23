@@ -29,6 +29,7 @@ import {
     Header,
     Summary,
     Modal,
+    Breadcrumb,
  } from './index';
  
 export default class Builder {
@@ -120,6 +121,10 @@ export default class Builder {
 
     getSummary(summaryName) {
         return this._getElement(new Summary(), summaryName);
+    }
+
+    getBreadcrumb(breadcrumbName) {
+        return this._getElement(new Breadcrumb(), breadcrumbName);
     }
 
     getModal(modalName) {

@@ -19,7 +19,9 @@
         },
         methods: {
             triggerInput() {
-                this.$emit('input', this.formValue);
+                if (this.formValue) {
+                    this.$emit('input', this.formValue);
+                }
             },
             getIcon() {
                 return this.$iconsProvider.get(this.fieldObject.icon);

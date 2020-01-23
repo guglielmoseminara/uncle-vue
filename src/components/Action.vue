@@ -19,14 +19,15 @@
                     executeFlag = confirm('Are you sure?');
                 }
                 if (executeFlag) {
-                    return await this.actionItemObject.action.execute(this.params);
+                    try {
+                        return await this.actionItemObject.action.execute(this.getParams());
+                    } catch(e) {
+                        console.log(e);
+                    }
                 }
-                alert();
                 this.$forceUpdate();
-            }
-        },
-        computed: {
-            params() {
+            },
+            getParams() {
                 let actionParams = this.actionItemObject.action.getParams();
                 let actionParamsNames = actionParams.map((actionParam) => {
                     return actionParam.name;
@@ -39,6 +40,11 @@
                     }
                 }
                 return actionParamsObject;
+            }
+        },
+        computed: {
+            params() {
+                return this.getParams();
             }
         }
     }

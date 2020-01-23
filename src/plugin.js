@@ -37,6 +37,9 @@ export default {
                 getSummary: function(summaryName) {
                     return app.getSummary(summaryName);
                 },
+                getBreadcrumb: function(breadcrumbName) {
+                    return app.getBreadcrumb(breadcrumbName);
+                },
                 _parseRoutes: function(routes) {
                     return routes.map((route) => {
                         if (route.url != '/') {
@@ -57,6 +60,9 @@ export default {
                             name: route.name,
                             children: children,
                             action: route.action,
+                            meta: {
+                              breadcrumb: route.breadcrumb
+                            },
                             props: {view: route.view.name},
                         };
                         return routeParams;

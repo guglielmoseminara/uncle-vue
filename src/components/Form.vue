@@ -17,6 +17,9 @@
         },
         prop: ['value'],
         async created() {
+            this.$uncle.getApp().serviceManager.getEventEmitter().$on('resetFormEvent', () => {
+                this.initValue();
+            });
             if (this.form) {
                 this.formObject = this.$uncle.getForm(this.form);
                 this.fieldsList = this.formObject.getFields();
@@ -24,6 +27,7 @@
                 this.actionsList = this.formObject.getActions();
             }
             await this.loadItem();
+            this.$emit('itemLoaded', this.item);
             this.initValue();
         },
         data() {
@@ -76,7 +80,12 @@
                 this.initValue();
             },
             formUpdate(field, value) {
-                this.formValue[field.name] = value;
+                if (field.type == 'resource') {
+                    this.formValue[field.name] = DotObject.pick(field.item.valueField, value);
+                } 
+                else {
+                    this.formValue[field.name] = value;
+                }
                 this.setFormImages();
                 this.formDataValue = Utils.encodeFormData(this.formValue);
             },

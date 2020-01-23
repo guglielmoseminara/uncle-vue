@@ -28,6 +28,14 @@ export default class ServiceManager {
         return this.cookie;
     }
 
+    setEventEmitter(eventEmitter) {
+        this.eventEmitter = eventEmitter;
+    }
+
+    getEventEmitter() {
+        return this.eventEmitter;
+    }
+
     registerService(name, service) {
         this.services[name] = service;
     }

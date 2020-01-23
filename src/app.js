@@ -38,6 +38,10 @@ export default class App extends BaseElement {
         return this.builder.getSummary(summaryName);
     }
 
+    getBreadcrumb(breadcrumbName) {
+        return this.builder.getBreadcrumb(breadcrumbName);
+    }
+
     getRoutes() {
         const routes = this.appEl.querySelectorAll(':scope > routes > route');
         return Array.from(routes).map((route) => {

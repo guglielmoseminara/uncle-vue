@@ -23,6 +23,7 @@ export default class Field extends BaseElement {
         this.widget = this.fieldEl.getAttribute('widget');
         this.format = this.fieldEl.getAttribute('format');
         this.placeholder = this.fieldEl.getAttribute('placeholder');
+        this.limit = this.fieldEl.getAttribute('limit') ? parseInt(this.fieldEl.getAttribute('limit')) : false;
         this.icon = this.fieldEl.getAttribute('icon');
         return this;
     }

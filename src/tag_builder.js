@@ -4,6 +4,7 @@ import {
     Filter,
     Summary,
     Group,
+    Breadcrumb,
 } from './index';
 
 export default class TagBuilder {
@@ -15,11 +16,11 @@ export default class TagBuilder {
             'filter': Filter,
             'summary': Summary,
             'group': Group,
+            'breadcrumb': Breadcrumb
         }
     }
 
     build(tag) {
-        console.log(tag);
         var module = this.tagsMap[tag];
         return new module();
     }

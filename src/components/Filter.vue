@@ -40,9 +40,25 @@
                 this.filtersText = Object.clone(filtersValue);
                 this.triggerInput();
             },
+            removeFilterArray(filterFieldName, index) {
+                const fName = filterFieldName.replace('['+index+']', '');
+                this.filtersValue[fName].splice(index, 1);
+                this.filtersText[fName].splice(index, 1);
+                if (this.filtersValue[fName].length == 0) {
+                    delete this.filtersValue[fName];
+                }
+                if (this.filtersText[fName].length == 0) {
+                    delete this.filtersText[fName];
+                }
+            },
             removeFilter(filterFieldName) {
-                this.filtersValue[filterFieldName] = false;
-                this.filtersText[filterFieldName] = false;
+                const squareBracketsList = filterFieldName.match(/[^[\]]+(?=])/g);
+                if (squareBracketsList.length > 0) {
+                    this.removeFilterArray(filterFieldName, parseInt(squareBracketsList[0]));
+                } else {
+                    this.filtersValue[filterFieldName] = false;
+                    this.filtersText[filterFieldName] = false;
+                }
             },
             getSummary() {
                 return this.fieldsList.reduce((previous, row) => { 
@@ -50,6 +66,11 @@
                     if (filter) {
                         if (row.type == 'resource' || row.type == 'enum') {
                             return previous.concat({name:row.name, text:row.text + ':' + filter});
+                        } else if (row.type == 'resource_many') {
+                            for (let f in filter) {
+                                previous = previous.concat({name:row.name+'['+f+']', text:row.text + ':' + filter[f]});
+                            }
+                            return previous;
                         } else {
                             return previous.concat({name:row.name, text:row.text});
                         }
@@ -61,7 +82,7 @@
                 return this.fieldsList.reduce((previous, row) => {
                     var filter = this.filtersValue[row.name];
                     if (filter) {
-                        if (row.type == 'enum' || row.type == 'resource') {
+                        if (row.type == 'enum' || row.type == 'resource' || row.type == 'resource_many') {
                             previous[row.name] = filter;
                         } else if (row.type == 'boolean') {
                             previous[row.name] = true;
@@ -79,7 +100,15 @@
                 if (field.type == 'resource') {
                     this.filtersValue[field.name] = DotObject.pick(field.item.valueField, value);
                     this.filtersText[field.name] = DotObject.pick(field.item.textField, value);
-                } else if (field.type == 'enum') {
+                } else if (field.type == 'resource_many') {
+                    this.filtersValue[field.name] = value.map(item => {
+                        return DotObject.pick(field.item.valueField, item);
+                    });
+                    this.filtersText[field.name] = value.map(item => {
+                        return DotObject.pick(field.item.textField, item);
+                    });
+                }
+                else if (field.type == 'enum') {
                     this.filtersValue[field.name] = value;
                     this.filtersText[field.name] = field.getOptions().find((el) => {
                         return el.name == value;
@@ -88,6 +117,20 @@
                     this.filtersValue[field.name] = value;
                     this.filtersText[field.name] = value;
                 }
+            },
+            getFilterFieldValue(field) {
+                var value = this.filtersValue[field.name];
+                if (field.type == 'resource_many') {
+                    if (this.filtersText[field.name]) {
+                        value = this.filtersText[field.name].map((item, index) => {
+                            var obj = {};
+                            obj[field.item.valueField] = this.filtersValue[field.name][index];
+                            obj[field.item.textField] = this.filtersText[field.name][index];
+                            return obj
+                        });
+                    }
+                }
+                return value;
             }
         }
     } 

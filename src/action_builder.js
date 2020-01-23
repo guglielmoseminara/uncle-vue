@@ -5,6 +5,7 @@ import {
     ActionModal,
     ActionNotify,
     ActionService,
+    ActionEvent,
 } from './index';
 
 export default class ActionBuilder {
@@ -21,6 +22,8 @@ export default class ActionBuilder {
             return new ActionNotify();
         } else if (type == 'service') {
             return new ActionService();
+        } else if (type == 'event') {
+            return new ActionEvent();
         }
         return new Action();
     }
