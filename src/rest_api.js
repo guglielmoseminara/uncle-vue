@@ -84,7 +84,7 @@ export default class RestApi extends Api {
         }.bind(this), {});
     }
 
-    _getkeys = function(obj, prefix){
+    _getkeys(obj, prefix){
         var keys = Object.keys(obj);
         prefix = prefix ? prefix + '.' : '';
         return keys.reduce(function(result, key){
