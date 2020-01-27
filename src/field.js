@@ -36,6 +36,11 @@ export default class Field extends BaseElement {
         return this.fields;
     }
 
+    getForm() {
+        const formEl = this.fieldEl.closest('form');
+        return this.builder.getForm(formEl.getAttribute('name'));
+    }
+
     getLabel() {
         const label = this.fieldEl.querySelector(':scope > label');
         this.label = null;

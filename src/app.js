@@ -34,6 +34,10 @@ export default class App extends BaseElement {
         return this.builder.getForm(formName);
     }
 
+    getModal(modalName) {
+        return this.builder.getModal(modalName);
+    }
+
     getSummary(summaryName) {
         return this.builder.getSummary(summaryName);
     }

@@ -9,7 +9,7 @@ export default class Result {
     }
 
     getTotal() {
-        return this._resultObj.pagination.total;
+        return this._resultObj.pagination ? this._resultObj.pagination.total : -1;
     }
 
     get() {

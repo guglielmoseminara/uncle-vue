@@ -3,11 +3,11 @@
 </template>
 
 <script>
-    import { FormField } from './index';
+    import { FormFieldComponent } from './index';
     import DotObject from 'dot-object';
     
     export default {
-        extends: FormField,
+        extends: FormFieldComponent,
         methods: {
             async loadItems(search = null) {
                 var itemsList = [];

@@ -8,7 +8,7 @@ export default class Action extends BaseElement {
     }
 
     build(actionName) {
-        this.actionEl = this.mainEl.querySelector(`actions action[name=${actionName}]`);
+        this.actionEl = this.mainEl.querySelector(`actions action[name='${actionName}']`);
         this.name = actionName;
         this.confirm = this.actionEl.getAttribute('confirm') == 'true' || undefined;
         this.type = this.actionEl.getAttribute('type');
@@ -17,7 +17,7 @@ export default class Action extends BaseElement {
     }
 
     getParams() {
-        const params = this.actionEl.querySelectorAll('params param');
+        const params = this.actionEl.querySelectorAll(':scope > params > param');
         return Array.from(params).map((param) => {
             return {
                 name: param.getAttribute('name'),

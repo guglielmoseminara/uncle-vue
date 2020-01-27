@@ -20,7 +20,7 @@ export default class Page extends BaseElement {
 
     getComponents(className = null) {
         return className == null ? this.components : this.components.filter((component) => {
-            return component.constructor.name == className ? component : false;  
+            return component.className == className.toLowerCase() ? component : false;  
         });
     }
 

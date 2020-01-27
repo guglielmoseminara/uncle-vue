@@ -4,15 +4,21 @@
 </template>
 
 <script>
-    import { FormField } from './index';
+    import { FormFieldComponent } from './index';
 
     export default {
-        extends: FormField,
-          data() {
-                return {
-                    files: []
-                }
-            },
+        extends: FormFieldComponent,
+        props: {
+            hasGallery: {
+                type: Boolean
+            }
+        },
+        data() {
+            return {
+                files: [],
+                hasGalleryVisible: this.hasGallery
+            }
+        },
         methods: {
             dataURItoBlob(dataURI) {
                 var byteString;

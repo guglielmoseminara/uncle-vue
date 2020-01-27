@@ -17,14 +17,15 @@
         },
         prop: ['value'],
         async created() {
-            this.$uncle.getApp().serviceManager.getEventEmitter().$on('resetFormEvent', () => {
-                this.initValue();
-            });
             if (this.form) {
                 this.formObject = this.$uncle.getForm(this.form);
                 this.fieldsList = this.formObject.getFields();
                 this.groupsList = this.formObject.getGroups();
                 this.actionsList = this.formObject.getActions();
+                this.$uncle.getApp().serviceManager.getEventEmitter().$on('resetFormEvent:'+this.formObject.name, () => {
+                    this.initValue();
+                    this.submitted = false;
+                });
             }
             await this.loadItem();
             this.$emit('itemLoaded', this.item);
@@ -38,6 +39,7 @@
                 fieldsList: [],
                 groupsList: [],
                 actionsList: [],
+                submitted: false,
             }
         },
         methods: {
@@ -71,7 +73,7 @@
             },
             async loadItem() {
                 var item = {};
-                if (!this.item && this.form) {
+                if (this.form && this.params) {
                     item = await this.formObject.setParams(this.params).getItem();
                 } else {
                     item = this.item;
@@ -80,6 +82,7 @@
                 this.initValue();
             },
             formUpdate(field, value) {
+                console.log("update");
                 if (field.type == 'resource') {
                     this.formValue[field.name] = DotObject.pick(field.item.valueField, value);
                 } 
@@ -96,11 +99,22 @@
                         this.formValue[fieldName] = value.file;
                     }
                 }
+            },
+            async submit() {
+                var response = null;
+                if (this.formObject.action) {
+                    this.formObject.action.setRequestParams(this.formDataValue);
+                    response = await this.formObject.action.execute();
+                }
+                return response;
             }
         },
         watch: {
             formValue: function () {
                 this.$emit('input', this.formValue);
+            },
+            params: function() {
+                this.loadItem();
             }
         }
     } 

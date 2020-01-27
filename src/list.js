@@ -15,7 +15,7 @@ export default class List extends BaseElement {
         this.page = 1;
         this.selectable = this.listEl.getAttribute('selectable') == 'true';
         this.selectable_id = this.listEl.getAttribute('selectable-id') || 'id';
-        this.pagination = this.builder.getPagination(this.listEl);
+        this.pagination = this.listEl.querySelector('pagination') ? this.builder.getPagination(this.listEl) : null;
         this.item = this.builder.getItem(this.listEl);
         this.rows = this.builder.getRows(this.listEl);
         this.text = this.listEl.getAttribute('text') || '';
@@ -58,8 +58,9 @@ export default class List extends BaseElement {
     }
 
     _getItemsParams() {
+        this.params = this.params ? this.params : {};
         this.params.page = this.page;
-        this.params.perPage = this.pagination.perPage;
+        this.params.perPage = this.pagination ? this.pagination.perPage : -1;
         this.params.orderBy = this.orders.map((order) => {
             return order.field;
         }).join(',');

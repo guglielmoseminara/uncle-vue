@@ -31,6 +31,7 @@ export default class RestApi extends Api {
             request = Utils.decodeFormData(request);
             encode = true;
         }
+        console.log(request);
         var data = route.method == 'get' ? {} : _.omit(request, replacedParams);
         if (encode) {
             data = Utils.encodeFormData(data);

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import { ValueParserMixin } from '../index';
+    import ValueParserMixin from '../mixins/value_parser';
     
     export default {
         mixins: [ValueParserMixin],

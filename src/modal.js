@@ -12,9 +12,9 @@ export default class Modal extends BaseElement {
         this.name = modalName;
         this.title = this.modalEl.getAttribute('title');
         var elements = this.modalEl.getElementsByTagName('*');
-        this.components = new List(Array.from(elements).map((element) => {
+        this.components = elements.length > 0 ? new List(Array.from(elements).map((element) => {
             return this.builder.build(element.tagName, element.getAttribute('name'));
-        }));
+        })) : [];
         return this;
     }
 
@@ -23,8 +23,8 @@ export default class Modal extends BaseElement {
     }
 
     getComponents(className = null) {
-        return className == null ? this.components : this.components.filter((component) => {
-            return component.constructor.name == className ? component : false;  
-        });
+        return this.components ? (className == null ? this.components : this.components.filter((component) => {
+            return component.className == className.toLowerCase() ? component : false;  
+        })) : [];
     }
 }

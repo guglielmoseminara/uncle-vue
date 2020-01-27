@@ -5,10 +5,20 @@
 <script>
     export default {
         props: {
-            modalObject: {
-                type: Object,
-                required: false
+            modalObj: {
+                type: Object
+            },
+            modal: {
+                type: String
             }
+        },
+        created() {
+            if (this.modal) {
+                this.modalObject = this.$uncle.getModal(this.modal);
+            } else if(this.modalObj) {
+                this.modalObject = this.modalObj;
+            }
+
         },
         computed: {
             modalName() {
@@ -18,6 +28,11 @@
         methods: {
             getComponents(className = null) {
                 return this.modalObject.getComponents(className);
+            }
+        },
+        data() {
+            return {
+                modalObject: this.modalObj
             }
         }
     }

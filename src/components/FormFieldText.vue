@@ -3,10 +3,10 @@
 </template>
 
 <script>
-    import { FormField } from './index';
+    import { FormFieldComponent } from './index';
     
     export default {
-        extends: FormField,
+        extends: FormFieldComponent,
         props: {
             placeholder: {
                 type: String

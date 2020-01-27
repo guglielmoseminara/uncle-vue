@@ -11,6 +11,7 @@ export default class Form extends BaseElement {
         this.formEl = this.mainEl.querySelector(`forms form[name="${formName}"]`);
         this.name = formName;
         this.title = this.formEl.getAttribute('title');
+        this.action = this.formEl.getAttribute('action') ? this.builder.getAction(this.formEl.getAttribute('action')) : null;
         return this;
     }
 

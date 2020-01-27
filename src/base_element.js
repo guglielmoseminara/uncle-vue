@@ -21,4 +21,9 @@ export default class BaseElement {
         this.paramsManager = paramsManager;
         return this;
     }
+
+    setClassName(className) {
+        this.className = className;
+        return this;
+    }
 }

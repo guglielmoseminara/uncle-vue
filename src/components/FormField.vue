@@ -6,22 +6,19 @@
     export default {
         inject: ['$validator'],
         props: {
-            validator: {
-                type: String
-            },
             fieldObject: {
                 type: Object
             },
             value: {}
         },
         mounted() {
-            this.$validator.validateAll();
+            if (this.fieldObject && this.fieldObject.getForm()) {
+                this.$validator.validateAll(this.fieldObject.getForm().name);
+            }
         },
         methods: {
             triggerInput() {
-                if (this.formValue) {
-                    this.$emit('input', this.formValue);
-                }
+                this.$emit('input', this.formValue);
             },
             getIcon() {
                 return this.$iconsProvider.get(this.fieldObject.icon);

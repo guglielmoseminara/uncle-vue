@@ -18,4 +18,9 @@ export default class ActionItem extends BaseElement {
         return this;
     }
 
+    getForm() {
+        const formEl = this.actionItemEl.closest('form');
+        return this.builder.getForm(formEl.getAttribute('name'));
+    }
+
 }

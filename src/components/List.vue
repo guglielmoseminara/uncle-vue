@@ -3,10 +3,11 @@
 </template>
 
 <script>
-    import DotObject from 'dot-object';
+    import ValueParserMixin from '../mixins/value_parser';
     import _ from 'lodash';
 
     export default {
+        mixins: [ValueParserMixin],
         props: {
             list: {
                 type: String
@@ -43,7 +44,12 @@
             }
         },
         async created() {
+            this.$uncle.getApp().serviceManager.getEventEmitter().$on('refreshListEvent', () => {
+                this.loadItems();
+                this.initializeSelectedIndexes();
+            });
             await this.loadItems();
+            this.$emit('itemsLoaded', this.itemsList);
         },
         methods: {
             async loadItems() {
@@ -56,9 +62,6 @@
                     this.totalItems = this.itemsList.length;
                 }
                 this.itemsList = itemsList;
-            },
-            getItemValue(item, fieldName) {
-                return DotObject.pick(fieldName, item).toString();
             },
             initializeSelectedIndexes(value = false) {
                 if (this.itemsList.length > 0 && this.listObject.selectable) {

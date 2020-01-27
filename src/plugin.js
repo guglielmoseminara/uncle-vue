@@ -1,4 +1,4 @@
-import { Loader, ServiceRouter, Cookie} from '../index';
+import { Loader, ServiceRouter, Cookie} from './index';
 
 export default {
     install(Vue, options) {
@@ -30,6 +30,9 @@ export default {
                 },
                 getForm: function(formName) {
                     return app.getForm(formName);
+                },
+                getModal: function(modalName) {
+                    return app.getModal(modalName);
                 },
                 getSdk: function() {
                     return app.getSdk();

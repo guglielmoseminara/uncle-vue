@@ -9,6 +9,7 @@ export default class FieldResource extends Field {
     build(parentEl, fieldName) {
         super.build(parentEl, fieldName);
         this.item = this.builder.getItem(this.fieldEl);
+        this.modal = this.fieldEl.getAttribute('modal') ? this.builder.getModal(this.fieldEl.getAttribute('modal')) : null;
         return this;
     }
 
