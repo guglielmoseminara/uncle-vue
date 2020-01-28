@@ -7,6 +7,7 @@ export default class Route extends BaseElement {
     }
 
     build(parentEl, routeName) {
+        console.log(routeName);
         this.routeEl = parentEl.querySelector(`routes > route[name="${routeName}"]`);
         this.url = this.routeEl.getAttribute('url');
         this.method = this.routeEl.getAttribute('method');

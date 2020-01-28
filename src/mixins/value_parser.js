@@ -8,6 +8,7 @@ export default {
         },
         getSingleItem(item, type, fieldName) {
             var value = this.getItemValue(item, fieldName);
+            console.log(item, fieldName, value);
             if (type == 'text') {
                 value = value.toString();
             }

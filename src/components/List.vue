@@ -64,7 +64,7 @@
                 this.itemsList = itemsList;
             },
             initializeSelectedIndexes(value = false) {
-                if (this.itemsList.length > 0 && this.listObject.selectable) {
+                if (this.itemsList.length > 0 && this.listObject && this.listObject.selectable) {
                     for (let listIndex in this.itemsList) {
                         this.selectedIndexes[this.itemsList[listIndex][this.listObject.selectable_id]] = value;
                     }

@@ -22,7 +22,6 @@ export default class ActionSdk extends Action {
     async executeChild(params = {}) {
         const sdk = this.builder.getSdk();
         params = this._buildParams(params);
-        console.log('check');
         params = await this._checkConditions(params);
         return await sdk.execute(this.api, this.method, params);
     }

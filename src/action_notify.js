@@ -15,6 +15,7 @@ export default class ActionNav extends Action {
 
     executeChild(params = null) {
         const notifier = this.serviceManager.getNotifier();
+        console.log(notifier, this.state, this.name, this.actionEl);
         notifier[this.state](this.text);
         return true;
     }
