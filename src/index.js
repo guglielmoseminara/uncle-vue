@@ -33,6 +33,7 @@ export { default as ActionItem } from './action_item';
 export { default as ActionListField } from './action_list_field';
 export { default as EnumField } from './enum_field';
 export { default as FieldResource } from './field_resource';
+export { default as FieldResourceMany } from './field_resource_many';
 export { default as FieldCustom } from './field_custom';
 export { default as ActionSdk } from './action_sdk';
 export { default as ActionNav } from './action_nav';

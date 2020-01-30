@@ -34,7 +34,8 @@
         data() {
             return {
                 formValue: this.value || {},
-                formDataValue: this.formDataValue,
+                formOutput: {},
+                formDataValue: {},
                 formObject: {},
                 fieldsList: [],
                 groupsList: [],
@@ -48,9 +49,10 @@
                 for (let f in this.fieldsList) {
                     let field = this.fieldsList[f];
                     let value = this.getValue(this.item, field.type, field.name);
-                    this.formValue[field.name] = this.item && value ? value : (field.bind ? this.getDotField(this, field.bind) : field.getDefault());
+                    this.formValue[field.name] = field.bind ? this.getDotField(this, field.bind) : (this.item && value ? value : field.getDefault());
                 }
-                this.formDataValue = Utils.encodeFormData(this.formValue);
+                this.buildFormOutput();
+                this.formDataValue = Utils.encodeFormData(this.formOutput);
             },
 
             getDotField(item, fieldName) {
@@ -82,7 +84,6 @@
                 this.initValue();
             },
             formUpdate(field, value) {
-                console.log("update");
                 if (field.type == 'resource') {
                     this.formValue[field.name] = DotObject.pick(field.item.valueField, value);
                 } 
@@ -90,7 +91,22 @@
                     this.formValue[field.name] = value;
                 }
                 this.setFormImages();
-                this.formDataValue = Utils.encodeFormData(this.formValue);
+                this.buildFormOutput();
+                this.formDataValue = Utils.encodeFormData(this.formOutput);
+            },
+            buildFormOutput() {
+                for (let f in this.fieldsList) {
+                    let field = this.fieldsList[f];
+                    let formFieldName = field.name;
+                    let formFieldValue = this.formValue[field.name];
+                    if (field.alias) {
+                        formFieldName = field.alias;
+                    }
+                    if (field.objProperty && this.formValue[field.name] && this.formValue[field.name][field.objProperty]) {
+                        formFieldValue = this.formValue[field.name][field.objProperty];
+                    }
+                    this.formOutput[formFieldName] = formFieldValue;
+                }
             },
             setFormImages() {
                 for (var fieldName in this.formValue) {

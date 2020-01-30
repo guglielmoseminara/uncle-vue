@@ -27,7 +27,7 @@
                 this.formValue = val;
                 if (!val) {
                     this.tags = [];
-                } else if (Array.isArray(val)) {
+                } else {
                     this.createTags(val);
                 }
             }

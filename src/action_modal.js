@@ -12,6 +12,11 @@ export default class ActionModal extends Action {
         return this;
     }
 
+    executeChild(params = null) { 
+        this.serviceManager.getModal().open(this.modal.name, params);
+        return true;
+    }
+
     getModal() {
         return this.modal;
     }

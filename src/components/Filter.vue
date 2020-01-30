@@ -53,7 +53,7 @@
             },
             removeFilter(filterFieldName) {
                 const squareBracketsList = filterFieldName.match(/[^[\]]+(?=])/g);
-                if (squareBracketsList.length > 0) {
+                if (squareBracketsList && squareBracketsList.length > 0) {
                     this.removeFilterArray(filterFieldName, parseInt(squareBracketsList[0]));
                 } else {
                     this.filtersValue[filterFieldName] = false;

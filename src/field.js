@@ -25,6 +25,8 @@ export default class Field extends BaseElement {
         this.placeholder = this.fieldEl.getAttribute('placeholder');
         this.limit = this.fieldEl.getAttribute('limit') ? parseInt(this.fieldEl.getAttribute('limit')) : false;
         this.icon = this.fieldEl.getAttribute('icon');
+        this.alias = this.fieldEl.getAttribute('alias');
+        this.objProperty = this.fieldEl.getAttribute('obj-property');
         return this;
     }
 

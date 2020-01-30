@@ -11,12 +11,16 @@
         props: {
             hasGallery: {
                 type: Boolean
+            },
+            hasModal: {
+                type: Boolean
             }
         },
         data() {
             return {
                 files: [],
-                hasGalleryVisible: this.hasGallery
+                hasGalleryVisible: this.hasGallery,
+                hasModalVisible: this.hasModal
             }
         },
         methods: {

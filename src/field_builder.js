@@ -4,6 +4,7 @@ import {
     ActionListField,
     FieldResource,
     FieldCustom,
+    FieldResourceMany,
 } from './index';
 
 export default class FieldBuilder {
@@ -14,8 +15,10 @@ export default class FieldBuilder {
             return new ActionListField();    
         } else if (type == 'enum') {
             return new EnumField(); 
-        } else if (type == 'resource' || type == 'resource_many') {
+        } else if (type == 'resource') {
             return new FieldResource(); 
+        } else if (type == 'resource_many') {
+            return new FieldResourceMany();         
         } else if (type == 'custom') {
             return new FieldCustom(); 
         }

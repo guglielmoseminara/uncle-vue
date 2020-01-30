@@ -44,4 +44,28 @@ export default class ServiceManager {
         return this.services[name];
     }
 
+    setActions(actions) {
+        this.actions = actions;
+    }
+
+    getActions() {
+        return this.actions;
+    }
+
+    setModal(modal) {
+        this.modal = modal;
+    }
+
+    getModal() {
+        return this.modal;
+    }
+
+    setIcons(icons) {
+        this.icons = icons;
+    }
+
+    getIcons() {
+        return this.icons;
+    }
+
 }

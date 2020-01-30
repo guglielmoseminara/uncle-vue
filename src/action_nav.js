@@ -17,5 +17,5 @@ export default class ActionNav extends Action {
         this.serviceManager.getRouter().navigate(this.route.name, params);
         return true;
     }
-
+    
 }
