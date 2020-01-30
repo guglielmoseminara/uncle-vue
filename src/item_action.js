@@ -34,7 +34,7 @@ export default class ItemAction extends Item {
         for (let p=0; p < params.length; p++) {
             let param = params[p];
             if (param.bind) {
-                DotObject.copy(param.bind, param.name, this, paramsObject);
+                DotObject.copy(param.bind, param.name, this.params, paramsObject);
             } else if (param.value) {
                 paramsObject[param.name] = param.value;
             }
