@@ -15,7 +15,7 @@
             items: {
                 type: Array
             },
-            paramsObject: {
+            params: {
                 type: Object
             }
         },
@@ -55,7 +55,7 @@
             async loadItems() {
                 var itemsList = [];
                 if (!this.items) {
-                    itemsList = await this.listObject.setParams(this.paramsObject).setOrders(this.ordersList).setPage(this.selectedPage).getItems();
+                    itemsList = await this.listObject.setParams(this.params).setOrders(this.ordersList).setPage(this.selectedPage).getItems();
                     this.totalItems = this.listObject.getTotalItems();
                 } else {
                     itemsList = this.items;
@@ -79,8 +79,8 @@
                 this.selectedAll = value;
             },
             appendSelectedToParams() {
-                if (this.paramsObject) {
-                    this.paramsObject.ids = Object.keys(this.selectedIndexes).filter((key) => {
+                if (this.params) {
+                    this.params.ids = Object.keys(this.selectedIndexes).filter((key) => {
                         return this.selectedIndexes[key] ? key : false
                     });
                 }
@@ -103,7 +103,7 @@
             selectedPage: async function() {
                 await this.loadItems();
             },
-            paramsObject: _.debounce(function() {
+            params: _.debounce(function() {
                 this.loadItems();
             }, 500),
             ordersList: async function() {

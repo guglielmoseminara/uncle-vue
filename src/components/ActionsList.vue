@@ -9,7 +9,7 @@
                 type: Array,
                 required: true
             },
-            paramsObject: {
+            params: {
                 type: Object
             }
         }

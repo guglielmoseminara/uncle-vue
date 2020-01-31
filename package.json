@@ -1,6 +1,6 @@
 {
   "name": "uncle-vue",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "An Uncle implementation for vue",
   "main": "index.js",
   "scripts": {

@@ -17,7 +17,7 @@ export default class ItemAction extends Item {
 
     async getItems() {
         const action = this.builder.getAction(this.itemEl.getAttribute('action'));
-        const params = this.buildRequestParams(action);
+        const params = this.paramsManager.buildParams(action.getParams(), this.params);
         action.setRequestParams(params);
         const response = await action.execute();
         return response;
@@ -26,20 +26,6 @@ export default class ItemAction extends Item {
     setParams(params) {
         this.params = params;
         return this;
-    }
-
-    buildRequestParams(action) {
-        const params = action.getParams();
-        var paramsObject = {};
-        for (let p=0; p < params.length; p++) {
-            let param = params[p];
-            if (param.bind) {
-                DotObject.copy(param.bind, param.name, this.params, paramsObject);
-            } else if (param.value) {
-                paramsObject[param.name] = param.value;
-            }
-        }
-        return paramsObject;
     }
 
 }

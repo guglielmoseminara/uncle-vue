@@ -43,26 +43,12 @@ export default class Form extends BaseElement {
         const item = this.formEl.querySelector('item');
         if (item && item.getAttribute('action')) {
             const action = this.builder.getAction(item.getAttribute('action'));
-            const params = this.buildParams(action);
+            const params = this.paramsManager.buildParams(action.getParams(), this.params);
             action.setRequestParams(params);
             const response = await action.execute();
             return response.getData();
         }
         return null;
-    }
-
-    buildParams(action) {
-        const params = action.getParams();
-        var paramsObject = {};
-        for (let p=0; p < params.length; p++) {
-            let param = params[p];
-            if (param.bind) {
-                DotObject.copy(param.bind, param.name, this, paramsObject);
-            } else if (param.value) {
-                paramsObject[param.name] = param.value;
-            }
-        }
-        return paramsObject;
     }
 
     setParams(params) {

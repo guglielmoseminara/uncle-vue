@@ -6,11 +6,14 @@ export default class ParamsManager {
         this.serviceManager = serviceManager;
     }
 
+    buildContext(requestParams) {
+        var context = {...requestParams};
+        context.serviceManager = this.serviceManager;
+        return context;
+    }
+
     buildParams(params, requestParams) {
-        var context = {
-            requestParams: requestParams,
-            serviceManager: this.serviceManager
-        }
+        var context = this.buildContext(requestParams);
         var paramsObject = {};
         for (let p=0; p < params.length; p++) {
             let param = params[p];

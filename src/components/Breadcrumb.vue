@@ -8,21 +8,31 @@
             breadcrumb: {
                 type: String
             },
-            paramsObject: {
+            params: {
                 type: Object
             }
         },
         created() {
             if (this.breadcrumb) {
                 this.breadcrumbObject = this.$uncle.getBreadcrumb(this.breadcrumb);
-                if (this.paramsObject) {
-                    this.breadcrumbObject.compile(this.paramsObject);
-                }
+                this.compile();
             }
         },
         data() {
             return {
                 breadcrumbObject: {}
+            }
+        },
+        methods: {
+            compile() {
+                if (this.params) {
+                    this.breadcrumbObject.compile(this.params);
+                }
+            }
+        },
+        watch: {
+            params(value) {
+                this.compile();
             }
         }
     }

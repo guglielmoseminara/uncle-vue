@@ -11,7 +11,7 @@
             action: {
                 type: String
             },
-            paramsObject: {}
+            params: {}
         },
         created() {
             if (this.action) {
@@ -30,14 +30,14 @@
                 }
                 if (executeFlag) {
                     try {
-                        return await this.actionObject.execute(this.getParams());
+                        return await this.actionObject.execute(this.getActionParams());
                     } catch(e) {
                         console.log(e);
                     }
                 }
                 this.$forceUpdate();
             },
-            getParams() {
+            getActionParams() {
                 let actionParams = this.actionObject.getParams();
                 let actionParamsNames = actionParams.map((actionParam) => {
                     return actionParam.name;
@@ -45,16 +45,11 @@
                 let actionParamsObject = {}
                 for (let paramIndex in actionParamsNames) {
                     let paramName = actionParamsNames[paramIndex];
-                    if (this.paramsObject[paramName]) {
-                        actionParamsObject[paramName] = this.paramsObject[paramName];
+                    if (this.params[paramName]) {
+                        actionParamsObject[paramName] = this.params[paramName];
                     }
                 }
                 return actionParamsObject;
-            }
-        },
-        computed: {
-            params() {
-                return this.getParams();
             }
         }
     }

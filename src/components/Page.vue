@@ -12,7 +12,7 @@
         },
         data() {
             return {
-                paramsObject: null
+                item: null
             }
         },
         methods: {
@@ -20,7 +20,7 @@
                 return this.pageObject.getComponents(className);
             },
             itemLoaded(item) {
-                this.paramsObject = item
+                this.item = item
             }
         }
     }

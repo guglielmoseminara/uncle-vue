@@ -54,7 +54,7 @@ export default class ActionSdk extends Action {
             return !array || (array && array.length == 0);
         });
         if (conditions.length > 0) {
-            let context = {params:this._buildParamsDecoded(params), Utils:Utils};
+            let context = this._buildParamsDecoded(params);
             for (let c = 0; c < conditions.length; c++) {
                 let when = conditions[c].when;
                 let conditionResult = await jexl.eval(when, context);
