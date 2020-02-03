@@ -27,6 +27,7 @@ export default class Field extends BaseElement {
         this.icon = this.fieldEl.getAttribute('icon');
         this.alias = this.fieldEl.getAttribute('alias');
         this.objProperty = this.fieldEl.getAttribute('obj-property');
+        this.watch = this.fieldEl.getAttribute('watch');
         return this;
     }
 

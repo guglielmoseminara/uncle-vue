@@ -22,14 +22,12 @@
                 this.fieldsList = this.formObject.getFields();
                 this.groupsList = this.formObject.getGroups();
                 this.actionsList = this.formObject.getActions();
-                this.$uncle.getApp().serviceManager.getEventEmitter().$on('resetFormEvent:'+this.formObject.name, () => {
-                    this.initValue();
+                this.$uncle.getApp().serviceManager.getEventEmitter().$on('resetFormEvent:'+this.formObject.name, async () => {
+                    await this.init();
                     this.submitted = false;
                 });
             }
-            await this.loadItem();
-            this.$emit('itemLoaded', this.item);
-            this.initValue();
+            await this.init();
         },
         data() {
             return {
@@ -44,6 +42,11 @@
             }
         },
         methods: {
+            async init() {
+                await this.loadItem();
+                this.$emit('itemLoaded', this.item);
+                this.initValue();
+            },
             initValue() {
                 this.formValue = {}
                 for (let f in this.fieldsList) {
@@ -51,6 +54,7 @@
                     let value = this.getValue(this.item, field.type, field.name);
                     this.formValue[field.name] = field.bind ? this.getDotField(this, field.bind) : (this.item && value ? value : field.getDefault());
                 }
+                this.refreshWatching(true);
                 this.buildFormOutput();
                 this.formDataValue = Utils.encodeFormData(this.formOutput);
             },
@@ -86,11 +90,12 @@
             formUpdate(field, value) {
                 if (field.type == 'resource') {
                     this.formValue[field.name] = DotObject.pick(field.item.valueField, value);
-                } 
+                }
                 else {
                     this.formValue[field.name] = value;
                 }
                 this.setFormImages();
+                this.refreshWatching();
                 this.buildFormOutput();
                 this.formDataValue = Utils.encodeFormData(this.formOutput);
             },
@@ -105,6 +110,13 @@
                     if (field.objProperty && this.formValue[field.name] && this.formValue[field.name][field.objProperty]) {
                         formFieldValue = this.formValue[field.name][field.objProperty];
                     }
+                    if (field.type == 'resource_many' && this.formValue[field.name]) {
+                        formFieldValue = this.formValue[field.name].map((item) => {
+                            var obj = {};
+                            obj[field.item.valueField] = item[field.item.valueField];
+                            return obj;
+                        });
+                    }
                     this.formOutput[formFieldName] = formFieldValue;
                 }
             },
@@ -113,6 +125,14 @@
                     const value = this.formValue[fieldName];
                     if (value && value.file) {
                         this.formValue[fieldName] = value.file;
+                    }
+                }
+            },
+            refreshWatching(init = false) {
+                for (let f in this.fieldsList) {
+                    let field = this.fieldsList[f];
+                    if (field.watch && !init) {
+                        this.formValue[field.name] = DotObject.pick(field.watch, this.formValue);
                     }
                 }
             },
