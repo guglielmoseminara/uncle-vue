@@ -1,4 +1,9 @@
 import UncleConfig from '../../../uncle.config.js';
+/*const path = require('path');
+console.log(process.env.CONFIG_UNCLE_FILE);
+console.log(path.join(process.env.CONFIG_UNCLE_FILE, "uncle.config.js"));
+let UncleConfig = require(path.join(process.env.CONFIG_UNCLE_FILE, "uncle.config.js"));*/
+//var UncleConfig = require("~/uncle.config.js");
 
 import { Parser } from './index';
 

@@ -21,7 +21,6 @@
                 this.summaryObject = this.$uncle.getSummary(this.summary);
                 this.fieldsList = this.summaryObject.getFields();
                 this.groupsList = this.summaryObject.getGroups();
-                this.createLayout();
                 this.actionsList = this.summaryObject.getActions();
                 this.initValue();
             }
@@ -49,11 +48,6 @@
             },
             triggerInput() {
                 this.$emit('input', this.summaryValue);
-            },
-            createLayout() {
-                for (var g = 0; g < this.groupsList.length; g++) {
-                    console.log(this.groupsList[g]);
-                }
             },
             async loadItem() {
                 var item = {};

@@ -31,7 +31,7 @@
             }
         },
         watch: {
-            params(value) {
+            params() {
                 this.compile();
             }
         }

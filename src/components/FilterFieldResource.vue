@@ -3,11 +3,11 @@
 </template>
 
 <script>
-    import { FilterFieldComponent } from './index';
+    import FilterField from './FilterField';
     import DotObject from 'dot-object';
 
     export default {
-        extends: FilterFieldComponent,
+        extends: FilterField,
         async created() {
             await this.loadItems();
         },

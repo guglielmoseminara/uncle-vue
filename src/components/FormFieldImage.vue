@@ -4,10 +4,10 @@
 </template>
 
 <script>
-    import { FormFieldComponent } from './index';
+    import FormField from './FormField';
 
     export default {
-        extends: FormFieldComponent,
+        extends: FormField,
         props: {
             hasGallery: {
                 type: Boolean
@@ -59,14 +59,6 @@
                 }.bind(this);
                 base_image.src = this.formValue;
             },
-            inputFile: function (newFile, oldFile) {
-                if (newFile && oldFile && !newFile.active && oldFile.active) {
-                        console.log('response', newFile.response)
-                    if (newFile.xhr) {
-                        console.log('status', newFile.xhr.status)
-                    }
-                }
-            },
             inputFilter: function (newFile, oldFile, prevent) {
                     if (newFile && !oldFile) {
                         if (!/\.(jpeg|jpe|jpg|gif|png|webp)$/i.test(newFile.name)) {
@@ -90,7 +82,7 @@
                 this.formValue = this.files[0];
                 this.triggerInput();
             },
-            value: function (old, newVal) {
+            value: function () {
                 this.initFile();
             },
         },
