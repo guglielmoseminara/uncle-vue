@@ -28,6 +28,7 @@ export default class Field extends BaseElement {
         this.alias = this.fieldEl.getAttribute('alias');
         this.objProperty = this.fieldEl.getAttribute('obj-property');
         this.watch = this.fieldEl.getAttribute('watch');
+        this.disableLabel =  this.fieldEl.getAttribute('disable-label') == 'true';
         return this;
     }
 
@@ -40,17 +41,25 @@ export default class Field extends BaseElement {
     }
 
     getForm() {
-        const formEl = this.fieldEl.closest('form');
-        return this.builder.getForm(formEl.getAttribute('name'));
+        if (this.form) {
+            return this.form;
+        } else {
+            if (this.fieldEl) {
+                const formEl = this.fieldEl.closest('form');
+                return this.builder.getForm(formEl.getAttribute('name'));        
+            }
+        }
     }
 
     getLabel() {
-        const label = this.fieldEl.querySelector(':scope > label');
         this.label = null;
-        if (label) {
-            this.label = this.builder.getLabel(this.fieldEl);
+        if (this.fieldEl) {
+            const label = this.fieldEl.querySelector(':scope > label');
+            if (label) {
+                this.label = this.builder.getLabel(this.fieldEl);
+            }
+            return this.label;    
         }
-        return this.label;
     }
 
     getDefault() {

@@ -13,6 +13,9 @@
             },
             params: {
                 type: Object
+            },
+            item: {
+                type: Object
             }
         },
         prop: ['value'],
@@ -64,7 +67,7 @@
             },
                
             getItemValue(item, fieldName) {
-                return this.getDotField(item, fieldName);
+                return item && item[fieldName] ? item[fieldName] : this.getDotField(item, fieldName);
             },
             getValue(item, type, name) {
                 if (type == 'text') {
@@ -88,12 +91,7 @@
                 this.initValue();
             },
             formUpdate(field, value) {
-                if (field.type == 'resource') {
-                    this.formValue[field.name] = DotObject.pick(field.item.valueField, value);
-                }
-                else {
-                    this.formValue[field.name] = value;
-                }
+                this.formValue[field.name] = value;
                 this.setFormImages();
                 this.refreshWatching();
                 this.buildFormOutput();
@@ -109,6 +107,9 @@
                     }
                     if (field.objProperty && this.formValue[field.name] && this.formValue[field.name][field.objProperty]) {
                         formFieldValue = this.formValue[field.name][field.objProperty];
+                    }
+                    if (field.type == 'resource') {
+                        formFieldValue = DotObject.pick(field.item.valueField, formFieldValue);
                     }
                     if (field.type == 'resource_many' && this.formValue[field.name]) {
                         formFieldValue = this.formValue[field.name].map((item) => {

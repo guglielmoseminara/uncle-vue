@@ -12,14 +12,18 @@ export default class EnumField extends Field {
     }
 
     getOptions() {
-        const options = this.fieldEl.querySelectorAll('options option');
-        this.options = Array.from(options).map((option) => {
-            return {
-                name: option.getAttribute('name'),
-                text: option.innerHTML,
-            }
-        });
-        return this.options;
+        if (this.options) {
+            return this.options;
+        } else {
+            const options = this.fieldEl.querySelectorAll('options option');
+            this.options = Array.from(options).map((option) => {
+                return {
+                    name: option.getAttribute('name'),
+                    text: option.innerHTML,
+                }
+            });
+            return this.options;    
+        }
     }
 
     getItemValue(name) {

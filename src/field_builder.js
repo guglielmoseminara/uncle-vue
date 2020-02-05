@@ -12,6 +12,10 @@ export default class FieldBuilder {
 
     getField(parentEl, fieldName) {
         const type = parentEl.querySelector(`fields field[name='${fieldName}']`).getAttribute('type');
+        return this.buildField(type);
+    }
+
+    buildField(type) {
         if (type == 'actions-list') {
             return new ActionListField();    
         } else if (type == 'enum') {

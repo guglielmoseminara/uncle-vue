@@ -13,7 +13,7 @@ export default class ActionNav extends Action {
         return this;
     }
 
-    executeChild(params = null) {
+    executeChild(params = {}) {
         this.serviceManager.getRouter().navigate(this.route.name, params);
         return true;
     }

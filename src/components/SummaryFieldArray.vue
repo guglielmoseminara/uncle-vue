@@ -3,16 +3,10 @@
 </template>
 
 <script>
-    import ValueParserMixin from '../mixins/value_parser';
-    
+    import { SummaryFieldComponent } from './index';
+
     export default {
-        mixins: [ValueParserMixin],
-        props: {
-            fieldObject: {
-                type: Object,
-            },
-            value: {}
-        },
+        extends: SummaryFieldComponent,
         created() {
             if (this.fieldObject) {
                 this.fieldsList = this.fieldObject.getFields();

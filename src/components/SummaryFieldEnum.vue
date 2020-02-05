@@ -3,22 +3,15 @@
 </template>
 
 <script>
+    import { SummaryFieldComponent } from './index';
+
     export default {
-        props: {
-            fieldObject: {
-                type: Object,
-                required: true
-            },
-            value: {
-                type: [String, Number],
-                required: true
-            }
-        },
+        extends: SummaryFieldComponent,
         created() {
             this.optionsList = this.fieldObject.getOptions();
         },
         methods: {
-            getItemValue(name) {
+            getEnumValue(name) {
                 return this.fieldObject.getItemValue(name);
             }
         }

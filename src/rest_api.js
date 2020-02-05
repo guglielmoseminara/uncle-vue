@@ -100,7 +100,10 @@ export default class RestApi extends Api {
 
     _buildFieldRequest(field) {
         var value = field;
-        if (typeof field == 'object') {
+        if (Array.isArray(field)) {
+            value = field.join('|');
+        }
+        else if (typeof field == 'object') {
             const keys = this._getkeys(field);
             value = {};
             for (let i in keys) {

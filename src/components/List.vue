@@ -41,6 +41,11 @@
             },
             actionsList() {
                 return this.list ? this.listObject.getActions() : null;
+            },
+            hasActionsList() {
+                return this.fieldsList.find((field) => {
+                    return field.type == 'actions-list';
+                });
             }
         },
         async created() {

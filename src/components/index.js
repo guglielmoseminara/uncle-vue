@@ -66,7 +66,10 @@ export { default as FormFieldResourceManyComponent } from './FormFieldResourceMa
 export { default as FormGroupComponent } from './FormGroup.vue';
 export { default as SummaryGroupComponent } from './SummaryGroup.vue';
 export { default as SummaryComponent } from './Summary.vue';
+export { default as SummaryFieldComponent } from './SummaryField.vue';
+export { default as SummaryFieldContainerComponent } from './SummaryFieldContainer.vue';
 export { default as SummaryFieldDatetimeComponent } from './SummaryFieldDatetime.vue';
+export { default as SummaryFieldDateRangeComponent } from './SummaryFieldDateRange.vue';
 export { default as SummaryFieldAbstractComponent } from './SummaryFieldAbstract.vue';
 export { default as SummaryFieldArrayComponent } from './SummaryFieldArray.vue';
 export { default as SummaryFieldObjectComponent } from './SummaryFieldObject.vue';

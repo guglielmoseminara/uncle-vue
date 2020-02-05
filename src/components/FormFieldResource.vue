@@ -24,7 +24,7 @@
             triggerInput() {
                 if (this.formValue) {
                     this.$emit('input', this.itemsList.find((el) => {
-                        return DotObject.pick(this.fieldObject.item.valueField, el) == this.formValue;
+                        return el[this.fieldObject.item.valueField] == this.formValue[this.fieldObject.item.valueField];
                     }));
                 }
             },
@@ -34,7 +34,8 @@
         },
         data() {
             return {
-                itemsList: []
+                itemsList: [],
+                formValue: this.value || {}
             }
         }
     }

@@ -7,10 +7,16 @@ export default class ItemBuilder {
 
     getItem(parentEl) {
         const item = parentEl.querySelector(`items`);
-        if (item.getAttribute('action')) {
-            return new ItemAction();    
-        } 
-        return new Item();
+        const type = item.getAttribute('action') ? 'action' : null;
+        return this.buildItem(type);
+    }
+
+    buildItem(type) {
+        if (type == 'action') {
+            return new ItemAction();
+        } else {
+            return new Item();
+        }
     }
 
 }

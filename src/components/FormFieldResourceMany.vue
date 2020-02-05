@@ -20,16 +20,21 @@
             },
             getOptionText(option, textField) {
                 return DotObject.pick(textField, option).toString();
-            }
-        },
-        watch: {
-            value: function(val) {
-                this.formValue = val;
-                if (!val) {
+            },
+            initTags() {
+                if (!this.formValue) {
                     this.tags = [];
                 } else {
-                    this.createTags(val);
+                    this.createTags(this.formValue);
                 }
+            }
+        },
+        created() {
+            this.initTags();
+        },
+        watch: {
+            formValue: function(val) {
+                this.initTags();
             }
         },
         data() {

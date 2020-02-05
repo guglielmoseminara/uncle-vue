@@ -22,7 +22,7 @@ export default {
             }
             var value = null;
             const type = field.type;
-            if (field.type == 'text' || field.type == 'datetime' || field.type == 'date') {
+            if (type == 'text' || type == 'datetime' || type == 'date') {
                 var values = [];
                 const pathList = path.split('+');
                 for (let p = 0; p < pathList.length; p++) {
@@ -31,7 +31,17 @@ export default {
                     values.push(value);
                 }
                 value = values.join(' ');
-            } else {
+            } else if(type == 'date_range') {
+                const fields = field.getFields();
+                var dateFromField = fields[0];
+                var dateToField = fields[1];
+                var dateFromPath = dateFromField.bind ? dateFromField.bind : dateFromField.name;
+                var dateToPath = dateToField.bind ? dateToField.bind : dateToField.name;
+                var dateFromValue = this.formatValue(this.getSingleItem(item, type, dateFromPath), dateFromField);
+                var dateToValue = this.formatValue(this.getSingleItem(item, type, dateToPath), dateToField);
+                value = [dateFromValue, dateToValue];
+            }
+            else {
                 value = this.getSingleItem(item, type, path);
                 value = this.formatValue(value, field);
             }
@@ -41,7 +51,8 @@ export default {
             if (field.type == 'datetime') {
                 return field.format == 'hh:mm' ? moment().startOf('day').add(value, 'minutes').format('HH:mm') : value;
             } else if (field.type == 'date') {
-                return moment(value).format(field.format);
+                console.log(value, field);
+                return moment(value, "YYYY-MM-DD").format(field.format);
             } else {
                 return value;
             }

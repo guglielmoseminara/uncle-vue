@@ -43,6 +43,9 @@ export default {
                 getBreadcrumb: function(breadcrumbName) {
                     return app.getBreadcrumb(breadcrumbName);
                 },
+                getBuilder: function() {
+                    return app.getBuilder();
+                },
                 _parseRoutes: function(routes) {
                     return routes.map((route) => {
                         if (route.url != '/') {

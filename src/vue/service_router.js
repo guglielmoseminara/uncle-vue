@@ -4,7 +4,7 @@ export default class ServiceRouter {
         this.router = router;
     }
 
-    navigate(name, params) {
+    navigate(name, params = {}) {
         if (this.router.currentRoute.path !== params.path) {
             this.router.push({ name: name, params: params });
         } else {

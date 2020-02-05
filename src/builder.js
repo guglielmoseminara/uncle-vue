@@ -51,6 +51,14 @@ export default class Builder {
         return this._getElement(this.tagBuilder.build(tagName), name);
     }
 
+    buildField(type) {
+        return this._initElement(this.fieldBuilder.buildField(type));
+    }
+
+    buildItem(type) {
+        return this._initElement(this.itemBuilder.buildItem(type));
+    }
+
     getApp(appName) {
         return this._getElement(new App(), appName);
     }
@@ -163,12 +171,15 @@ export default class Builder {
         return this._getElement(this.labelBuilder.getLabel(parentEl), parentEl);
     }
 
-    _getElement(instance, ...params) {
+    _initElement(instance){
         return instance.setMainElement(this.mainEl)
                 .setBuilder(this)
                 .setServiceManager(this.serviceManager)
-                .setParamsManager(this.paramsManager)
-                .build(...params);
+                .setParamsManager(this.paramsManager);
+    }
+
+    _getElement(instance, ...params) {
+        return this._initElement(instance).build(...params);
     }
 
 }
