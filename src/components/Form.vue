@@ -12,7 +12,8 @@
                 type: String
             },
             params: {
-                type: Object
+                type: Object,
+                default: () => ({})
             },
             item: {
                 type: Object
@@ -82,7 +83,7 @@
             },
             async loadItem() {
                 var item = {};
-                if (this.form && this.params) {
+                if (this.form) {
                     item = await this.formObject.setParams(this.params).getItem();
                 } else {
                     item = this.item;
