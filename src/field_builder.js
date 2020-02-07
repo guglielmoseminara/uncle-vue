@@ -5,7 +5,9 @@ import {
     FieldResource,
     FieldCustom,
     FieldResourceMany,
-    FieldGeoAddress
+    FieldGeoAddress,
+    FieldNumber,
+    FieldAction,
 } from './index';
 
 export default class FieldBuilder {
@@ -26,6 +28,10 @@ export default class FieldBuilder {
             return new FieldResourceMany();         
         } else if (type == 'geoaddress') {
             return new FieldGeoAddress();         
+        } else if (type == 'number') {
+            return new FieldNumber();
+        } else if (type == 'action') {
+            return new FieldAction();
         } else if (type == 'custom') {
             return new FieldCustom(); 
         }

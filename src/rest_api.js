@@ -50,18 +50,19 @@ export default class RestApi extends Api {
             const lastPart = keyArr.slice(1, keyArr.length).join('.');
             if (keyArr.length > 1) {
                 let item = {};
-                item[lastPart] = this._buildFieldRequest(this.request[k]);
+                item[lastPart] = this._buildFieldRequest(this.request[k], k);
                 if (!previous[keyArr[0]]) {
                     previous[keyArr[0]] = {};
                 }
                 previous[keyArr[0]] = {...previous[keyArr[0]], ...item};
             } else {
                 let item = {}
-                item[k] = this._buildFieldRequest(this.request[k]);
+                item[k] = this._buildFieldRequest(this.request[k], k);
                 previous = {...previous, ...item};
             }
             return previous;
         }, {});
+        console.log(params);
         const queryString = Object.keys(params).map((paramKey) => {
             if (replacedParams.indexOf(paramKey) != -1 ) {
                 return '';
@@ -98,22 +99,27 @@ export default class RestApi extends Api {
         }.bind(this), []);
     };
 
-    _buildFieldRequest(field) {
+    _buildFieldRequest(field, key) {
+        console.log('request', field, key);
         var value = field;
         if (Array.isArray(field)) {
             value = field.join('|');
         }
         else if (typeof field == 'object') {
-            const keys = this._getkeys(field);
-            value = {};
-            for (let i in keys) {
-                let key = keys[i];
-                let picked = DotObject.pick(key, field);
-                if (Array.isArray(picked)) {
-                    value[key] = picked.join('|');
-                } else {
-                    value[key] = picked;
-                }
+            if (field.type && field.type == 'range') {
+                value = field.min + '-'+field.max;
+            } else {
+                const keys = this._getkeys(field);
+                value = {};
+                for (let i in keys) {
+                    let key = keys[i];
+                    let picked = DotObject.pick(key, field);
+                    if (Array.isArray(picked)) {
+                        value[key] = picked.join('|');
+                    } else {
+                        value[key] = picked;
+                    }
+                }    
             }
         } 
         return value;

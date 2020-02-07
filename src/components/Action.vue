@@ -5,52 +5,55 @@
 <script>
     export default {
         props: {
-            actionItemObject: {
-                type: Object
-            },
             action: {
                 type: String
             },
-            params: {}
+            actionObj: {
+                type: Object
+            },
+            color: {
+                type: String
+            },
+            text: {
+                type: String
+            },
+            icon: {
+                type: String
+            },
+            validate: {
+                type: Boolean
+            },
+            confirm: {
+                type: Boolean
+            },
+            params: {
+                default: {}
+            }
         },
         created() {
+            if (this.actionObj) {
+                this.actionObject = this.actionObj;
+            }
             if (this.action) {
                 this.actionObject = this.$uncle.getAction(this.action);
-            }
-            if (this.actionItemObject) {
-                this.actionObject = this.actionItemObject.action;
             }
         },
         methods: {
             async execute() {
-                const confirmFlag = this.actionObject.confirm;
+                const confirmFlag = this.confirm;
                 let executeFlag = true;
                 if (confirmFlag) {
                     executeFlag = confirm('Are you sure?');
                 }
                 if (executeFlag) {
                     try {
-                        return await this.actionObject.execute(this.getActionParams());
+                        return await this.actionObject.execute(this.params);
                     } catch(e) {
                         console.log(e);
                     }
                 }
                 this.$forceUpdate();
             },
-            getActionParams() {
-                let actionParams = this.actionObject.getParams();
-                let actionParamsNames = actionParams.map((actionParam) => {
-                    return actionParam.name;
-                });
-                let actionParamsObject = {}
-                for (let paramIndex in actionParamsNames) {
-                    let paramName = actionParamsNames[paramIndex];
-                    if (this.params[paramName]) {
-                        actionParamsObject[paramName] = this.params[paramName];
-                    }
-                }
-                return actionParamsObject;
-            }
         }
     }
 </script>

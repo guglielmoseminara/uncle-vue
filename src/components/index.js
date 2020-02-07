@@ -48,6 +48,7 @@ export { default as ListFieldArrayComponent } from './ListFieldArray.vue';
 export { default as PaginationComponent } from './Pagination.vue';
 export { default as FilterComponent } from './Filter.vue';
 export { default as FilterFieldComponent } from './FilterField.vue';
+export { default as FilterFieldNumberComponent } from './FilterFieldNumber.vue';
 export { default as FilterFieldAbstractComponent } from './FilterFieldAbstract.vue';
 export { default as FilterFieldResourceComponent } from './FilterFieldResource.vue';
 export { default as FilterFieldResourceManyComponent } from './FilterFieldResourceMany.vue';

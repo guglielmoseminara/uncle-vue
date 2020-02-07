@@ -23,6 +23,7 @@ export default class Action extends BaseElement {
                 name: param.getAttribute('name'),
                 bind: param.getAttribute('bind'),
                 value: param.getAttribute('value'),
+                type: param.getAttribute('type'),
             }
         });
     }

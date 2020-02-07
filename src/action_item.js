@@ -13,6 +13,7 @@ export default class ActionItem extends BaseElement {
         this.text = this.actionItemEl.innerHTML;
         this.color = this.actionItemEl.getAttribute('color');
         this.icon = this.actionItemEl.getAttribute('icon');
+        this.confirm = this.actionItemEl.getAttribute('confirm') == 'true';
         this.validate = this.actionItemEl.getAttribute('validate')?true:false;
         this.action = this.builder.getAction(this.actionItemEl.getAttribute('name'));
         return this;

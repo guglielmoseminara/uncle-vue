@@ -64,13 +64,15 @@
                 return this.fieldsList.reduce((previous, row) => { 
                     var filter = this.filtersText[row.name];
                     if (filter) {
-                        if (row.type == 'resource' || row.type == 'enum') {
+                        if (row.type == 'resource' || row.type == 'enum' || row.type == 'date') {
                             return previous.concat({name:row.name, text:row.text + ':' + filter});
                         } else if (row.type == 'resource_many') {
                             for (let f in filter) {
                                 previous = previous.concat({name:row.name+'['+f+']', text:row.text + ':' + filter[f]});
                             }
                             return previous;
+                        } else if (row.type == 'number' && row.widget == 'slider') {
+                            return previous.concat({name:row.name, text:row.text + ': '+row.min+' - ' + filter + ' '+row.symbol});
                         } else {
                             return previous.concat({name:row.name, text:row.text});
                         }
@@ -82,10 +84,12 @@
                 return this.fieldsList.reduce((previous, row) => {
                     var filter = this.filtersValue[row.name];
                     if (filter) {
-                        if (row.type == 'enum' || row.type == 'resource' || row.type == 'resource_many') {
+                        if (row.type == 'enum' || row.type == 'resource' || row.type == 'resource_many' || row.type == 'date') {
                             previous[row.name] = filter;
                         } else if (row.type == 'boolean') {
                             previous[row.name] = true;
+                        } else if (row.type == 'number' && row.widget == 'slider') {
+                            previous[row.name] = [row.min, filter];
                         } else {
                             previous[row.name] = defaultValue;
                         }
@@ -113,6 +117,9 @@
                     this.filtersText[field.name] = field.getOptions().find((el) => {
                         return el.name == value;
                     }).text;
+                } else if (field.type == 'number' && field.widget == 'slider') {
+                    this.filtersValue[field.name] = value;
+                    this.filtersText[field.name] = value;
                 } else {
                     this.filtersValue[field.name] = value;
                     this.filtersText[field.name] = value;

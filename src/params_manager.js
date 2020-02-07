@@ -25,6 +25,16 @@ export default class ParamsManager {
             } else if (param.value) {
                 paramsObject[param.name] = param.value;
             }
+            if (param.type == 'range') {
+                let value = paramsObject[param.name];
+                if (value && value.length == 2) {
+                    paramsObject[param.name] = {
+                        type: 'range',
+                        min: value[0],
+                        max: value[1]
+                    };    
+                }
+            }
         }
         return paramsObject;
     }

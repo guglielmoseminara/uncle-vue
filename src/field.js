@@ -29,6 +29,7 @@ export default class Field extends BaseElement {
         this.objProperty = this.fieldEl.getAttribute('obj-property');
         this.watch = this.fieldEl.getAttribute('watch');
         this.disableLabel =  this.fieldEl.getAttribute('disable-label') == 'true';
+        this.symbol = this.fieldEl.getAttribute('symbol') || '';
         return this;
     }
 

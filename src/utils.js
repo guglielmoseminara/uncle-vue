@@ -36,5 +36,8 @@ export default {
             object[key] = value;
         });
         return object;
+    },  
+    basename: function(url){
+        return url.split('/').reverse()[0];
     }
 }
