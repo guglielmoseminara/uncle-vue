@@ -7,16 +7,30 @@ export default class Response extends BaseElement {
         super();
     }
 
-    build(apiEl) {
-        this.responseEl = apiEl.querySelector('response');
+    build(apiEl, responseName = null) {
+        if (responseName) {
+            this.responseEl = apiEl.querySelector(`responses response[name="${responseName}"]`);
+        } else {
+            const responses = apiEl.querySelectorAll('response');
+            if (responses.length == 1) {
+                this.responseEl = responses[0];
+            } else {
+                this.responseEl = apiEl.querySelector('response[default=true]');
+            }
+        }
+        this.type = this.responseEl.getAttribute('type');
         return this;
     }
 
     format(response) {
         const elements = this.responseEl.children;
-        var newResponse = {};
-        this._formatFields(elements, response, newResponse);
-        return new Result(newResponse);
+        if (elements.length > 0) {
+            var newResponse = {};
+            this._formatFields(elements, response, newResponse);
+            return new Result(newResponse);
+        } else {
+            return new Result(response);
+        }
     }
 
     _formatFields(elements, response, newResponse, prefix = '') {

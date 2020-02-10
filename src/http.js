@@ -2,8 +2,8 @@ import axios from 'axios';
 
 export default class Http { 
 
-    async get(url, data = {}, headers = {}) {
-        const config = this._buildConfig(headers);
+    async get(url, data = {}, headers = {}, responseType = null) {
+        const config = this._buildConfig(headers, responseType);
         try {
             const res = await axios.get(url, config);
             return res.data;
@@ -12,8 +12,8 @@ export default class Http {
         }
     }
 
-    async put(url, data = {}, headers = {}) {
-        const config = this._buildConfig(headers);
+    async put(url, data = {}, headers = {}, responseType = null) {
+        const config = this._buildConfig(headers, responseType);
         config.params = {
             '_method': 'PUT'
         };
@@ -25,18 +25,19 @@ export default class Http {
         }
     }
 
-    async post(url, data = {}, headers = {}) {
-        const config = this._buildConfig(headers);
+    async post(url, data = {}, headers = {}, responseType = null) {
+        const config = this._buildConfig(headers, responseType);
         try {
             let res = await axios.post(url, data, config);
             return res.data;
         } catch(e) {
+            console.log(e);
             return this._handleError(e);
         }
     }
 
-    async delete(url, data = {}, headers = {}) {
-        const config = this._buildConfig(headers);
+    async delete(url, data = {}, headers = {}, responseType = null) {
+        const config = this._buildConfig(headers, responseType);
         config.params = {
             '_method': 'DELETE'
         };
@@ -48,10 +49,13 @@ export default class Http {
         }
     }
 
-    _buildConfig(headers = {}) {
+    _buildConfig(headers = {}, responseType) {
         var config = {};
         config.headers = headers;
         config.headers['x-locale'] = 'it';
+        if (responseType) {
+            config.responseType = responseType;
+        }
         return config;
     }
 

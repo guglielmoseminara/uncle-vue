@@ -9,7 +9,6 @@ export default class Api extends BaseElement {
     build(apiName) {
         this.apiEl = this.mainEl.querySelector(`api[name="${apiName}"]`);
         this.baseUrl = this.apiEl.getAttribute('base-url');
-        this.response = this.builder.getResponse(this.apiEl);
         this.name = apiName;
         return this;
     }

@@ -2,6 +2,7 @@ import {
     App, 
     Nav, 
     Route,
+    RouteApi,
     NavItem,
     View,
     List,
@@ -77,6 +78,10 @@ export default class Builder {
 
     getRoute(parentEl, routeName) {
         return this._getElement(new Route(), parentEl, routeName);
+    }
+
+    getRouteApi(parentEl, routeName) {
+        return this._getElement(new RouteApi(), parentEl, routeName);
     }
 
     getView(viewName) {
@@ -155,8 +160,8 @@ export default class Builder {
         return this._getElement(new Resource(), apiEl, resourceName);
     }
 
-    getResponse(apiEl) {
-        return this._getElement(new Response(), apiEl);
+    getResponse(apiEl, responseName = null) {
+        return this._getElement(new Response(), apiEl, responseName);
     }
 
     getRequest(requestName) {

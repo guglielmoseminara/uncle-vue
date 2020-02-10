@@ -9,6 +9,7 @@ export { default as ItemAction } from './item_action';
 export { default as Nav } from './nav';
 export { default as NavItem } from './nav_item';
 export { default as Route } from './route';
+export { default as RouteApi } from './route_api';
 export { default as View } from './view'; 
 export { default as Parser } from './parser';
 export { default as Builder } from './builder';

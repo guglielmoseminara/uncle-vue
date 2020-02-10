@@ -16,12 +16,13 @@ export default class RestApi extends Api {
 
     async execute() {
         const resource = this.apiEl.querySelector(`resources resource[name='${this.method.resource}']`);
-        const route = this.builder.getRoute(resource, resource.querySelector(`routes route[name='${this.method.route}']`).getAttribute('name'));
+        const resourceRoute = resource.querySelector(`routes route[name='${this.method.route}']`);
+        const route = this.builder.getRouteApi(resource, resourceRoute.getAttribute('name'));
         const replacedUrlObj = this._replaceUrlVariables(route.url);
         const data = this._buildData(route, replacedUrlObj.replacedParams);
         const headers = this._buildHeaders(route);
-        const response = await this.http[route.method](this._buildUrl(route, replacedUrlObj), data, headers);
-        return this.response ? this.response.format(response) : response;
+        const response = await this.http[route.method](this._buildUrl(route, replacedUrlObj), data, headers, route.response.type);
+        return route.response ? route.response.format(response) : response;
     }
 
     _buildData(route, replacedParams) {
