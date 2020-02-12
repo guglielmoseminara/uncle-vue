@@ -55,8 +55,8 @@
                 this.formValue = {}
                 for (let f in this.fieldsList) {
                     let field = this.fieldsList[f];
-                    let value = this.getValue(this.item, field.type, field.name);
-                    this.formValue[field.name] = field.bind ? this.getDotField(this, field.bind) : (this.item && value ? value : field.getDefault());
+                    let value = field.value ? field.value : (this.item ? this.getValue(this.item, field.type, field.name) : field.getDefault());
+                    this.formValue[field.name] = field.bind ? this.getDotField(this, field.bind) : value;
                 }
                 this.refreshWatching(true);
                 this.buildFormOutput();
