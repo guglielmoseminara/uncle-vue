@@ -20,6 +20,22 @@ export default class ServiceManager {
         return this.notifier;
     }
 
+    setLanguageProvider(languageProvider) {
+        this.languageProvider = languageProvider;
+    }
+
+    getLanguageProvider() {
+        return this.languageProvider;
+    }
+
+    setConfigurationProvider(configurationProvider) {
+        this.configurationProvider = configurationProvider;
+    }
+
+    getConfigurationProvider() {
+        return this.configurationProvider;
+    }
+
     setCookie(cookie) {
         this.cookie = cookie;
     }

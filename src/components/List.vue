@@ -59,6 +59,7 @@
         methods: {
             async loadItems() {
                 var itemsList = [];
+                this.loading = true;
                 if (!this.items) {
                     itemsList = await this.listObject.setParams(this.params).setOrders(this.ordersList).setPage(this.selectedPage).getItems();
                     this.totalItems = this.listObject.getTotalItems();
@@ -67,6 +68,7 @@
                     this.totalItems = this.itemsList.length;
                 }
                 this.itemsList = itemsList;
+                this.loading = false;
             },
             initializeSelectedIndexes(value = false) {
                 if (this.itemsList.length > 0 && this.listObject && this.listObject.selectable) {
@@ -99,6 +101,7 @@
                 ordersList: [],
                 selectedAll: false,
                 selectedIndexes: {},
+                loading: false,
             }
         },
         watch: {
