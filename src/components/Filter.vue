@@ -8,13 +8,20 @@
     export default {
         props: {
             filter: {
-                type: String,
-                required: true
+                type: String
+            },
+            filterObj: {
+                type: Object
             }
         },
         prop: ['value'],
         created() {
-            this.filterObject = this.$uncle.getFilter(this.filter);
+            if (this.filterObj) {
+                this.filterObject = this.filterObj;
+            }
+            if (this.filter) {
+                this.filterObject = this.$uncle.getFilter(this.filter);
+            }
             this.fieldsList = this.filterObject.getFields();
             this.groupsList = this.filterObject.getGroups();
             this.initValue();

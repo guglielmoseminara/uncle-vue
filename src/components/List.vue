@@ -54,7 +54,6 @@
                 this.initializeSelectedIndexes();
             });
             await this.loadItems();
-            this.$emit('itemsLoaded', this.itemsList);
         },
         methods: {
             async loadItems() {
@@ -69,6 +68,7 @@
                 }
                 this.itemsList = itemsList;
                 this.loading = false;
+                this.$emit('itemsLoaded', this.itemsList);
             },
             initializeSelectedIndexes(value = false) {
                 if (this.itemsList.length > 0 && this.listObject && this.listObject.selectable) {
