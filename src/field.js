@@ -34,11 +34,15 @@ export default class Field extends BaseElement {
     }
 
     getFields() {
-        const fields = this.fieldEl.querySelectorAll(':scope > field');
-        this.fields = Array.from(fields).map((field) => {
-            return this.builder.getField(this.fieldEl, field.getAttribute('name'));
-        });
-        return this.fields;
+        if (this.fields) {
+            return this.fields;
+        } else if (this.fieldEl){
+            const fields = this.fieldEl.querySelectorAll(':scope > field');
+            this.fields = Array.from(fields).map((field) => {
+                return this.builder.getField(this.fieldEl, field.getAttribute('name'));
+            });
+            return this.fields;    
+        }
     }
 
     getForm() {
