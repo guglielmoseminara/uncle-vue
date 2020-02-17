@@ -20,12 +20,19 @@
                     itemsList = this.items;
                 }
                 this.itemsList = itemsList;
+                if (this.itemsList) {
+                    for (let i = 0; i < this.itemsList.length; i++) {
+                        let item = this.itemsList[i];
+                        let valueField = item[this.fieldObject.item.valueField];
+                        if (valueField) {
+                            this.itemsDict[valueField] = item;
+                        }
+                    }
+                }
             },
             triggerInput() {
-                if (this.formValue) {
-                    this.$emit('input', this.itemsList.find((el) => {
-                        return el[this.fieldObject.item.valueField] == this.formValue[this.fieldObject.item.valueField];
-                    }));
+                if (this.resourceValue) {
+                    this.$emit('input', this.itemsDict[this.resourceValue]);
                 }
             },
             getOptionText(option, textField) {
@@ -35,7 +42,15 @@
         data() {
             return {
                 itemsList: [],
-                formValue: this.value || {}
+                itemsDict: {},
+                resourceValue: this.value && this.fieldObject ? this.value[this.fieldObject.item.valueField] : null
+            }
+        },
+        watch: {
+            formValue(value) {
+                if (value) {
+                    this.resourceValue = value[this.fieldObject.item.valueField];
+                }
             }
         }
     }

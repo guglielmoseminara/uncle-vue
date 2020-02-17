@@ -25,7 +25,7 @@
         },
         watch: {
             value: function(val) {
-                this.filterValue = val;
+                this.filterValue = val || 0;
             }
         },
         methods: {

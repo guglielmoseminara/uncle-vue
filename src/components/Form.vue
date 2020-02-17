@@ -15,7 +15,7 @@
                 type: Object,
                 default: () => ({})
             },
-            item: {
+            itemObj: {
                 type: Object
             }
         },
@@ -83,10 +83,10 @@
             },
             async loadItem() {
                 var item = {};
-                if (this.form) {
+                if (this.form && !this.itemObj) {
                     item = await this.formObject.setParams(this.params).getItem();
                 } else {
-                    item = this.item;
+                    item = this.itemObj;
                 }
                 this.item = item;
                 this.initValue();
@@ -113,11 +113,15 @@
                         formFieldValue = DotObject.pick(field.item.valueField, formFieldValue);
                     }
                     if (field.type == 'resource_many' && this.formValue[field.name]) {
-                        formFieldValue = this.formValue[field.name].map((item) => {
-                            var obj = {};
-                            obj[field.item.valueField] = item[field.item.valueField];
-                            return obj;
-                        });
+                        if (Array.isArray(this.formValue[field.name])) {
+                            formFieldValue = this.formValue[field.name].map((item) => {
+                                var obj = {};
+                                obj[field.item.valueField] = item[field.item.valueField];
+                                return obj;
+                            });
+                        } else {
+                            formFieldValue = this.formValue[field.name][field.item.valueField];
+                        }
                     }
                     this.formOutput[formFieldName] = formFieldValue;
                 }

@@ -32,7 +32,6 @@ export default class RestApi extends Api {
             request = Utils.decodeFormData(request);
             encode = true;
         }
-        console.log(request);
         var data = route.method == 'get' ? {} : _.omit(request, replacedParams);
         if (encode) {
             data = Utils.encodeFormData(data);
@@ -63,7 +62,6 @@ export default class RestApi extends Api {
             }
             return previous;
         }, {});
-        console.log(params);
         const queryString = Object.keys(params).map((paramKey) => {
             if (replacedParams.indexOf(paramKey) != -1 ) {
                 return '';
@@ -101,7 +99,6 @@ export default class RestApi extends Api {
     };
 
     _buildFieldRequest(field, key) {
-        console.log('request', field, key);
         var value = field;
         if (Array.isArray(field)) {
             value = field.join('|');
@@ -109,6 +106,8 @@ export default class RestApi extends Api {
         else if (typeof field == 'object') {
             if (field.type && field.type == 'range') {
                 value = field.min + '-'+field.max;
+            } else if (field.type && field.type == 'price_range') {
+                value = (parseInt(field.min)*100) + '-' + (parseInt(field.max)*100);
             } else {
                 const keys = this._getkeys(field);
                 value = {};
