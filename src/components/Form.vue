@@ -149,6 +149,16 @@
                     response = await this.formObject.action.execute();
                 }
                 return response;
+            },
+            getFirstFocusableField() {
+                var field = null;
+                for (let f in this.fieldsList) {
+                    if (this.fieldsList[f].type == 'text') {
+                        field = this.fieldsList[f];
+                        break;
+                    }
+                }
+                return field;
             }
         },
         watch: {

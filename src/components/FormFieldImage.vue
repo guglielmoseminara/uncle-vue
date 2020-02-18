@@ -82,7 +82,10 @@
                 this.formValue = this.files[0];
                 this.triggerInput();
             },
-            value: function () {
+            value: function (value) {
+                if (!value) {
+                    this.files = [];
+                }
                 this.initFile();
             },
         },
