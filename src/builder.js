@@ -8,6 +8,7 @@ import {
     List,
     Rows,
     FieldBuilder,
+    FieldFormatter,
     Pagination,
     Filter,
     Group,
@@ -102,6 +103,10 @@ export default class Builder {
 
     getField(parentEl, fieldName) {
         return this._getElement(this.fieldBuilder.getField(parentEl, fieldName), parentEl, fieldName);
+    }
+
+    getFieldFormatter(parentEl) {
+        return this._getElement(new FieldFormatter, parentEl);
     }
 
     getPagination(listEl) {

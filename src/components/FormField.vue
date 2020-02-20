@@ -9,6 +9,9 @@
             fieldObject: {
                 type: Object
             },
+            itemObj: {
+                type: Object
+            },
             value: {}
         },
         mounted() {
@@ -26,12 +29,16 @@
         },
         data() {
             return {
-                formValue: this.value
+                formValue: this.value,
+                item: this.itemObj || {}
             }
         },
         watch: {
             value: function(val) {
                 this.formValue = val;
+            },
+            itemObj(value) {
+                this.item = value;
             }
         }
     }

@@ -16,7 +16,7 @@ export default class Form extends BaseElement {
     }
 
     getFields() {
-        const fields = this.formEl.querySelectorAll('fields > field');
+        const fields = this.formEl.querySelectorAll(':scope > fields > field, :scope group > fields > field');
         this.fields = Array.from(fields).map((field) => {
             return this.builder.getField(this.formEl, field.getAttribute('name'));
         });

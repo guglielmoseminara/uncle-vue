@@ -14,7 +14,7 @@ export default class Field extends BaseElement {
         }
         this.parentEl = parentEl;
         this.name = fieldName;
-        this.text = this.fieldEl.getAttribute('text') || this.fieldEl.innerHTML || '';
+        this.text = this.fieldEl.getAttribute('text') != null ? this.fieldEl.getAttribute('text') : (this.fieldEl.innerHTML || '');
         this.type = this.fieldEl.getAttribute('type');
         this.validator = this.fieldEl.getAttribute('validator');
         this.value = this.fieldEl.getAttribute('value');
@@ -30,6 +30,7 @@ export default class Field extends BaseElement {
         this.watch = this.fieldEl.getAttribute('watch');
         this.disableLabel =  this.fieldEl.getAttribute('disable-label') == 'true';
         this.symbol = this.fieldEl.getAttribute('symbol') || '';
+        this.formatter = this.fieldEl.querySelector(':scope > formatter') ? this.builder.getFieldFormatter(this.fieldEl) : null;
         return this;
     }
 

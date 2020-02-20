@@ -16,6 +16,9 @@
             type: {
                 type: String
             },
+            itemObj: {
+                type: Object
+            },
             value: {}
         },
         created() {
@@ -24,8 +27,17 @@
         methods: {
             triggerInput(val) {
                 this.$emit('input', val);
-            },
-            
+            }, 
+        },
+        data() {
+            return {
+                item: this.itemObj || {}
+            }
+        },
+        watch: {
+            itemObj(value) {
+                this.item = value;
+            }
         }
     }
 </script>

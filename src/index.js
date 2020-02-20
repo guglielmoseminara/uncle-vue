@@ -33,6 +33,7 @@ export { default as Sdk } from './sdk';
 export { default as ActionItem } from './action_item';
 export { default as ActionListField } from './action_list_field';
 export { default as EnumField } from './enum_field';
+export { default as FieldFormatter } from './field_formatter';
 export { default as FieldAction } from './field_action';
 export { default as FieldNumber } from './field_number';
 export { default as FieldResource } from './field_resource';

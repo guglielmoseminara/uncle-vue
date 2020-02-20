@@ -17,9 +17,9 @@
             },
             itemObj: {
                 type: Object
-            }
+            },
+            value: {}
         },
-        prop: ['value'],
         async created() {
             if (this.form) {
                 this.formObject = this.$uncle.getForm(this.form);
@@ -43,6 +43,7 @@
                 groupsList: [],
                 actionsList: [],
                 submitted: false,
+                item: this.itemObj || {},
             }
         },
         methods: {
@@ -52,11 +53,13 @@
                 this.initValue();
             },
             initValue() {
-                this.formValue = {}
+                this.formValue = this.value || {}
                 for (let f in this.fieldsList) {
                     let field = this.fieldsList[f];
-                    let value = field.value ? field.value : (this.item ? this.getValue(this.item, field.type, field.name) : field.getDefault());
-                    this.formValue[field.name] = field.bind ? this.getDotField(this, field.bind) : value;
+                    if (!this.value || (this.value && !this.value[field.name])) {
+                        let value = field.value ? field.value : (this.item ? this.getValue(this.item, field.type, field.name) : field.getDefault());
+                        this.formValue[field.name] = field.bind ? this.getDotField(this, field.bind) : value;
+                    }
                 }
                 this.refreshWatching(true);
                 this.buildFormOutput();
@@ -96,6 +99,7 @@
                 this.setFormImages();
                 this.refreshWatching();
                 this.buildFormOutput();
+                this.triggerInput();
                 this.formDataValue = Utils.encodeFormData(this.formOutput);
             },
             buildFormOutput() {
@@ -122,6 +126,9 @@
                         } else {
                             formFieldValue = this.formValue[field.name][field.item.valueField];
                         }
+                    }
+                    if (field.formatter) {
+                        formFieldValue = field.formatter.format(formFieldValue);
                     }
                     this.formOutput[formFieldName] = formFieldValue;
                 }
@@ -162,8 +169,11 @@
             }
         },
         watch: {
+            value: function() {
+                this.initValue();
+            },
             formValue: function () {
-                this.$emit('input', this.formValue);
+                // this.$emit('input', this.formValue);
             },
             params: function() {
                 this.loadItem();
