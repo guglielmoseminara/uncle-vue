@@ -63,6 +63,7 @@
                 }
                 this.refreshWatching(true);
                 this.buildFormOutput();
+                this.triggerInput();
                 this.formDataValue = Utils.encodeFormData(this.formOutput);
             },
 
