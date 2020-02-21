@@ -43,6 +43,7 @@
                 groupsList: [],
                 actionsList: [],
                 submitted: false,
+                validated: false,
                 item: this.itemObj || {},
             }
         },
@@ -50,7 +51,7 @@
             async init() {
                 await this.loadItem();
                 this.$emit('itemLoaded', this.item);
-                this.initValue();
+                //this.initValue();
             },
             initValue() {
                 this.formValue = this.value || {}
@@ -61,10 +62,7 @@
                         this.formValue[field.name] = field.bind ? this.getDotField(this, field.bind) : value;
                     }
                 }
-                this.refreshWatching(true);
-                this.buildFormOutput();
-                this.triggerInput();
-                this.formDataValue = Utils.encodeFormData(this.formOutput);
+                this.updateLoop();
             },
 
             getDotField(item, fieldName) {
@@ -85,6 +83,9 @@
             triggerInput() {
                 this.$emit('input', this.formValue);
             },
+            triggerInputDataValue() {
+                this.$emit('inputData', this.formDataValue);
+            },
             async loadItem() {
                 var item = {};
                 if (this.form && !this.itemObj) {
@@ -96,12 +97,17 @@
                 this.initValue();
             },
             formUpdate(field, value) {
+                console.log(this.formValue);
                 this.formValue[field.name] = value;
                 this.setFormImages();
+                this.updateLoop();
+            },
+            updateLoop() {
                 this.refreshWatching();
                 this.buildFormOutput();
                 this.triggerInput();
                 this.formDataValue = Utils.encodeFormData(this.formOutput);
+                this.triggerInputDataValue();
             },
             buildFormOutput() {
                 for (let f in this.fieldsList) {
@@ -130,6 +136,9 @@
                     }
                     if (field.formatter) {
                         formFieldValue = field.formatter.format(formFieldValue);
+                    }
+                    if (typeof(formFieldValue) == 'undefined') {
+                        formFieldValue = null;
                     }
                     this.formOutput[formFieldName] = formFieldValue;
                 }
@@ -167,6 +176,12 @@
                     }
                 }
                 return field;
+            },
+            isSubmitted() {
+                return this.submitted;
+            },
+            isValidated() {
+                return this.validated;
             }
         },
         watch: {

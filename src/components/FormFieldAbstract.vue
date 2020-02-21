@@ -19,6 +19,9 @@
             itemObj: {
                 type: Object
             },
+            showErrors: {
+                type: Boolean
+            },
             value: {}
         },
         created() {
@@ -31,12 +34,16 @@
         },
         data() {
             return {
-                item: this.itemObj || {}
+                item: this.itemObj || {},
+                showErrorsFlag: this.showErrors || false,
             }
         },
         watch: {
             itemObj(value) {
                 this.item = value;
+            },
+            showErrors(value) {
+                this.showErrorsFlag = value;
             }
         }
     }

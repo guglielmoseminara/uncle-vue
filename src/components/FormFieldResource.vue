@@ -50,6 +50,8 @@
             formValue(value) {
                 if (value) {
                     this.resourceValue = value[this.fieldObject.item.valueField];
+                } else {
+                    this.resourceValue = null;
                 }
             }
         }

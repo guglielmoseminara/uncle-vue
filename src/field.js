@@ -20,6 +20,7 @@ export default class Field extends BaseElement {
         this.value = this.fieldEl.getAttribute('value');
         this.bind = this.fieldEl.getAttribute('bind');
         this.sortable = this.fieldEl.getAttribute('sortable') || false;
+        this.disabled = this.fieldEl.getAttribute('disabled') == 'true' || false;
         this.widget = this.fieldEl.getAttribute('widget');
         this.format = this.fieldEl.getAttribute('format');
         this.placeholder = this.fieldEl.getAttribute('placeholder');

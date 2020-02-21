@@ -61,6 +61,10 @@ export default class Builder {
         return this._initElement(this.itemBuilder.buildItem(type));
     }
 
+    buildModal() {
+        return this._initElement(new Modal());
+    }
+
     getApp(appName) {
         return this._getElement(new App(), appName);
     }

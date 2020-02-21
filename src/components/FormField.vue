@@ -12,12 +12,18 @@
             itemObj: {
                 type: Object
             },
+            showErrors: {
+                type: Boolean
+            },
+            placeholder: {
+                type: String,
+            },
             value: {}
         },
         mounted() {
-            if (this.fieldObject && this.fieldObject.getForm()) {
+            /*if (this.fieldObject && this.fieldObject.getForm()) {
                 this.$validator.validateAll(this.fieldObject.getForm().name);
-            }
+            }*/
         },
         methods: {
             triggerInput() {
@@ -25,12 +31,17 @@
             },
             getIcon() {
                 return this.$iconsProvider.get(this.fieldObject.icon);
+            },
+            isErrorsVisible(fieldName) {
+                return (this.showErrorsFlag && this.formErrors[fieldName])
             }
         },
         data() {
             return {
                 formValue: this.value,
-                item: this.itemObj || {}
+                item: this.itemObj || {},
+                showErrorsFlag: this.showErrors || false,
+                placeholderString: this.placeholder || '', 
             }
         },
         watch: {
@@ -39,6 +50,32 @@
             },
             itemObj(value) {
                 this.item = value;
+            },
+            showErrors(value) {
+                this.showErrorsFlag = value;
+            },
+            placeholder(value) {
+                this.placeholderString = value;
+            }
+        },
+        computed: {
+            formErrors() {
+                var errors = {};
+                var filteredErrors = this.filteredErrors;
+                for(let e in filteredErrors) {
+                    let formItem = filteredErrors[e];
+                    errors[formItem.field] = formItem;
+                }
+                return errors;
+            },
+            filteredErrors() {
+                if (this.fieldObject.getForm()) {
+                    return this.$validator.errors.items.filter((item) => {
+                        return item.scope == this.fieldObject.getForm().name
+                    });
+                } else {
+                    return {};
+                }
             }
         }
     }

@@ -59,8 +59,10 @@ export default class FieldFormatter extends BaseElement {
 
     _parseArray(value, fieldObject) {
         var rows = [];
-        for (let r = 0; r < value.length; r++) {
-            rows[r] = this._parse(value[r], fieldObject);
+        if (value) {
+            for (let r = 0; r < value.length; r++) {
+                rows[r] = this._parse(value[r], fieldObject);
+            }    
         }
         return rows;
     }

@@ -4,12 +4,15 @@
 
 <script>
     import FormField from './FormField';
-    
+    import _ from 'lodash'
+
     export default {
         extends: FormField,
-        props: {
-            placeholder: {
-                type: String
+        methods: {
+            triggerInput() {
+                _.debounce(() => {
+                    this.$emit('input', this.formValue);
+                }, 200)();
             }
         }
     }
