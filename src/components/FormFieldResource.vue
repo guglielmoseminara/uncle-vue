@@ -33,6 +33,8 @@
             triggerInput() {
                 if (this.resourceValue) {
                     this.$emit('input', this.itemsDict[this.resourceValue]);
+                } else {
+                    this.$emit('input', null);
                 }
             },
             getOptionText(option, textField) {
