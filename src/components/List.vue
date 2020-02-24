@@ -112,9 +112,11 @@
                 await this.loadItems();
             },
             params: _.debounce(function() {
+                this.selectedPage = 1;
                 this.loadItems();
             }, 500),
             ordersList: async function() {
+                this.selectedPage = 1;
                 await this.loadItems();
             },
             itemsList: function() {
