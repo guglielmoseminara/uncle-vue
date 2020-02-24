@@ -97,7 +97,6 @@
                 this.initValue();
             },
             formUpdate(field, value) {
-                console.log(this.formValue);
                 this.formValue[field.name] = value;
                 this.setFormImages();
                 this.updateLoop();
