@@ -4,7 +4,9 @@ export default {
     install(Vue, options) {
         var loader = new Loader();
         loader.init();
-        const app = loader.getParser().getApp(options.app);
+        const parser = loader.getParser();
+        const app = parser.getApp(options.app);
+        const env = parser.getEnv();
         const serviceRouter = new ServiceRouter(options.router);
         app.serviceManager.setRouter(serviceRouter);
         app.serviceManager.setCookie(Cookie);
@@ -12,6 +14,9 @@ export default {
             return {
                 getApp: function() {
                     return app;
+                },
+                getEnv: function() {
+                    return env;
                 },
                 getNav: function(navName) {
                     return app.getNav(navName);

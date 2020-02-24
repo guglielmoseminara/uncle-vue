@@ -3,6 +3,7 @@ export { default as Loader } from './loader';
 export { default as Cookie } from './cookie';
 export { default as Http } from './http';
 export { default as App } from './app';
+export { default as Env } from './env';
 export { default as ItemBuilder } from './item_builder';
 export { default as Item } from './item';
 export { default as ItemAction } from './item_action';

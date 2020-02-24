@@ -1,5 +1,6 @@
 import { 
-    App, 
+    App,
+    Env, 
     Nav, 
     Route,
     RouteApi,
@@ -67,6 +68,10 @@ export default class Builder {
 
     getApp(appName) {
         return this._getElement(new App(), appName);
+    }
+
+    getEnv() {
+        return this._getElement(new Env());
     }
 
     getSdk() {

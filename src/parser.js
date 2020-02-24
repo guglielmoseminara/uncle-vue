@@ -18,4 +18,9 @@ export default class Parser {
     getApi(apiName) {
         return this.builder.getApi(apiName);
     }
+
+    getEnv() {
+        return this.builder.getEnv();
+    }
+
 }
