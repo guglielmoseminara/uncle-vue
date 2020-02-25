@@ -51,8 +51,7 @@ export default {
             if (field.type == 'datetime') {
                 return field.format == 'hh:mm' ? moment().startOf('day').add(value, 'minutes').format('HH:mm') : value;
             } else if (field.type == 'date') {
-                console.log(value, field);
-                return moment(value, "YYYY-MM-DD").format(field.format);
+                return value ? moment(value, "YYYY-MM-DD").format(field.format) : null;
             } else {
                 return value;
             }

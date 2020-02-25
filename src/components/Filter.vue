@@ -68,7 +68,7 @@
                 }
             },
             getSummary() {
-                return this.fieldsList.reduce((previous, row) => { 
+                var summary = this.fieldsList.reduce((previous, row) => { 
                     var filter = this.filtersText[row.name];
                     if (filter) {
                         if (row.type == 'resource' || row.type == 'enum' || row.type == 'date') {
@@ -86,6 +86,7 @@
                     }
                     return previous;
                 }, []);
+                return summary;
             },
             getParams(defaultValue) {
                 return this.fieldsList.reduce((previous, row) => {

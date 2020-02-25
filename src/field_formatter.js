@@ -49,7 +49,10 @@ export default class FieldFormatter extends BaseElement {
                         arrayRows.push(this._parse(value[r], field));
                     }
                     row[field.name] = arrayRows;
-                } else {
+                } else if (field.type == 'price') {
+                    row[field.name] = Math.round(parseFloat(value) * 100);
+                } 
+                else {
                     row[field.name] = value;
                 }
             }

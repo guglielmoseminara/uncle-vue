@@ -17,7 +17,7 @@
             },
             params: {
                 type: Object
-            }
+            } 
         },
         computed: {
             listObject() {
