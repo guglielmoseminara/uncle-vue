@@ -16,6 +16,7 @@ export default class ActionItem extends BaseElement {
         this.confirm = this.actionItemEl.getAttribute('confirm') == 'true';
         this.validate = this.actionItemEl.getAttribute('validate')?true:false;
         this.action = this.builder.getAction(this.actionItemEl.getAttribute('name'));
+        this.submit = !this.actionItemEl.getAttribute('submit') || this.actionItemEl.getAttribute('submit') != 'false';
         return this;
     }
 

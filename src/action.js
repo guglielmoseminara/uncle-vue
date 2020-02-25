@@ -49,7 +49,7 @@ export default class Action extends BaseElement {
     async execute(params = {}) {
         const executeResult = await this.executeChild(params);
         const relatedResult = await this._executeRelated(executeResult);
-        return relatedResult ? relatedResult : executeResult;
+        return executeResult ? executeResult : relatedResult;
     }
 
     async _executeRelated(params) {

@@ -45,6 +45,7 @@
                 submitted: false,
                 validated: false,
                 item: this.itemObj || {},
+                id: Math.random().toString(36).substring(2, 15),
             }
         },
         methods: {
@@ -181,6 +182,9 @@
             },
             isValidated() {
                 return this.validated;
+            },
+            getScope() {
+                return this.id + (this.formObject ? this.formObject.name : '');
             }
         },
         watch: {

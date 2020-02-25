@@ -18,6 +18,9 @@
             placeholder: {
                 type: String,
             },
+            scope: {
+                type: String,
+            },
             value: {}
         },
         mounted() {
@@ -34,6 +37,9 @@
             },
             isErrorsVisible(fieldName) {
                 return (this.showErrorsFlag && this.formErrors[fieldName])
+            },
+            getFieldName(field) {
+                return this.scope+'_'+field.name;
             }
         },
         data() {
@@ -71,7 +77,7 @@
             filteredErrors() {
                 if (this.fieldObject.getForm()) {
                     return this.$validator.errors.items.filter((item) => {
-                        return item.scope == this.fieldObject.getForm().name
+                        return item.scope == this.scope
                     });
                 } else {
                     return {};

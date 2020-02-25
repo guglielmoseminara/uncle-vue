@@ -22,6 +22,9 @@
             showErrors: {
                 type: Boolean
             },
+            scope: {
+                type: String
+            },
             value: {}
         },
         created() {
