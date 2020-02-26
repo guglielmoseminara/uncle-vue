@@ -8,10 +8,12 @@ export default class Env extends BaseElement {
 
     build() {
         this.envEl = this.mainEl.querySelector(`env`);
-        this.variables = Array.from(this.envEl.querySelectorAll('variable')).reduce((variables, item) => {
-            variables[item.getAttribute('name')] = item.innerHTML;
-            return variables;
-        }, {});
+        if (this.envEl) {
+            this.variables = Array.from(this.envEl.querySelectorAll('variable')).reduce((variables, item) => {
+                variables[item.getAttribute('name')] = item.innerHTML;
+                return variables;
+            }, {});    
+        }
         return this;
     }
 }

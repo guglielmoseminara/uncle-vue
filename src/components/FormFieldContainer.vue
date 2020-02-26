@@ -7,6 +7,9 @@
         props: {
             text: {
                 type: String
+            },
+            fieldObject: {
+                type: Object
             }
         }
     }
