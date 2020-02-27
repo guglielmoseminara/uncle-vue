@@ -24,6 +24,7 @@ export default class Action extends BaseElement {
                 bind: param.getAttribute('bind'),
                 value: param.getAttribute('value'),
                 type: param.getAttribute('type'),
+                default: param.getAttribute('default')
             }
         });
     }

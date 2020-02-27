@@ -24,6 +24,9 @@ export default class ParamsManager {
                 }
             } else if (param.value) {
                 paramsObject[param.name] = param.value;
+            } 
+            if (param.default && !paramsObject[param.name]) {
+                paramsObject[param.name] = param.default;
             }
             if (param.type == 'range' || param.type == 'price_range') {
                 let value = paramsObject[param.name];
@@ -36,6 +39,7 @@ export default class ParamsManager {
                 }
             }
         }
+        console.log(params, paramsObject);
         return paramsObject;
     }
 }

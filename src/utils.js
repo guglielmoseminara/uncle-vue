@@ -39,5 +39,17 @@ export default {
     },  
     basename: function(url){
         return url.split('/').reverse()[0];
+    },
+    decodeEntities: function(string) {
+        var escaped_one_to_xml_special_map = {
+            '&amp;': '&',
+            '&quot;': '"',
+            '&lt;': '<',
+            '&gt;': '>'
+        };
+        return string.replace(/(&quot;|&lt;|&gt;|&amp;)/g,
+            function(str, item) {
+                return escaped_one_to_xml_special_map[item];
+        });
     }
 }

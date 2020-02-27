@@ -1,4 +1,4 @@
-import { Field } from './index';
+import { Field, Utils } from './index';
 
 export default class EnumField extends Field { 
 
@@ -18,8 +18,8 @@ export default class EnumField extends Field {
             const options = this.fieldEl.querySelectorAll('options option');
             this.options = Array.from(options).map((option) => {
                 return {
-                    name: option.getAttribute('name'),
-                    text: option.innerHTML,
+                    name: Utils.decodeEntities(option.getAttribute('name')),
+                    text: Utils.decodeEntities(option.innerHTML),
                 }
             });
             return this.options;    
