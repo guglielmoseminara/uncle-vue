@@ -44,6 +44,14 @@ export default class ServiceManager {
         return this.cookie;
     }
 
+    setStateManager(stateManager) {
+        this.stateManager = stateManager;
+    }
+
+    getStateManager() {
+        return this.stateManager;
+    }
+
     setEventEmitter(eventEmitter) {
         this.eventEmitter = eventEmitter;
     }

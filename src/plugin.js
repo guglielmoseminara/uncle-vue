@@ -1,4 +1,4 @@
-import { Loader, ServiceRouter, Cookie} from './index';
+import { Loader, ServiceRouter, Cookie, StateManager} from './index';
 
 export default {
     install(Vue, options) {
@@ -8,8 +8,11 @@ export default {
         const app = parser.getApp(options.app);
         const env = parser.getEnv();
         const serviceRouter = new ServiceRouter(options.router);
+        const stateManager = new StateManager();
         app.serviceManager.setRouter(serviceRouter);
         app.serviceManager.setCookie(Cookie);
+        app.serviceManager.setStateManager(stateManager);
+        Vue.prototype.$stateManager = stateManager;
         Vue.prototype.$uncle = function() {
             return {
                 getApp: function() {

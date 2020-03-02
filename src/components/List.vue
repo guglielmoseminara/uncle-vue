@@ -72,9 +72,12 @@
             },
             initializeSelectedIndexes(value = false) {
                 if (this.itemsList.length > 0 && this.listObject && this.listObject.selectable) {
+                    var selectedIndexes = {};
                     for (let listIndex in this.itemsList) {
-                        this.selectedIndexes[this.itemsList[listIndex][this.listObject.selectable_id]] = value;
+                        selectedIndexes[this.itemsList[listIndex][this.listObject.selectable_id]] = value;
                     }
+                    this.selectedIndexes = selectedIndexes;
+                    this.$forceUpdate();
                 }
                 this.appendSelectedToParams();
             },

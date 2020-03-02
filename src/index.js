@@ -63,6 +63,7 @@ export { default as Request } from './request';
 export { default as Header } from './header';
 export { default as ServiceRouter } from './vue/service_router';
 export { default as ParamsManager } from './params_manager';
+export { default as StateManager } from './state_manager';
 export { default as Utils } from './utils';
 export { default as ValueParserMixin } from './mixins/value_parser';
 export { default as UncleVuePlugin } from './plugin';

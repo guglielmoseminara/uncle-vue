@@ -12,6 +12,7 @@ export default class Group extends BaseElement {
         this.name = groupName;
         this.text = this.groupEl.getAttribute('text');
         this.layout = this.groupEl.getAttribute('layout');
+        this.visible = this.groupEl.getAttribute('visible') || true;
         return this;
     }
 

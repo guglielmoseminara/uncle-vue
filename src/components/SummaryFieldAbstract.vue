@@ -17,7 +17,6 @@
                 required: true
             },
             value: {
-                type: [String, Number, Object, Array],
                 required: true
             }
         },

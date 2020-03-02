@@ -5,6 +5,7 @@
 <script>
     import DotObject from 'dot-object';
     import { Utils } from '../index';
+    import jexl from 'jexl';
 
     export default {
         props: {
@@ -24,6 +25,10 @@
             if (this.form) {
                 this.formObject = this.$uncle.getForm(this.form);
                 this.fieldsList = this.formObject.getFields();
+                this.fieldsObject = this.fieldsList.reduce((obj, field) => {
+                    obj[field.name] = field;
+                    return obj;
+                }, {});
                 this.groupsList = this.formObject.getGroups();
                 this.actionsList = this.formObject.getActions();
                 this.$uncle.getApp().serviceManager.getEventEmitter().$on('resetFormEvent:'+this.formObject.name, async () => {
@@ -40,16 +45,25 @@
                 formDataValue: {},
                 formObject: {},
                 fieldsList: [],
+                fieldsObject: {},
                 groupsList: [],
                 actionsList: [],
                 submitted: false,
                 validated: false,
                 item: this.itemObj || {},
+                groupsVisibility: {},
                 id: Math.random().toString(36).substring(2, 15),
             }
         },
         methods: {
             async init() {
+                this.$stateManager.createScope(this.getScope());
+                this.$stateManager.subscribeScope(this.getScope(), (changes) => {
+                    for (let change in changes) {
+                        let field = this.fieldsObject[change];
+                        this.updateFormValue(field, changes[change]);
+                    }
+                });
                 await this.loadItem();
                 this.$emit('itemLoaded', this.item);
                 //this.initValue();
@@ -98,12 +112,17 @@
                 this.initValue();
             },
             formUpdate(field, value) {
+                this.$stateManager.setScoped(this.getScope(), field.name, value);
+                //this.updateFormValue(field, value);
+            },
+            updateFormValue(field, value) {
                 this.formValue[field.name] = value;
                 this.setFormImages();
                 this.updateLoop();
-            },
+            },  
             updateLoop() {
                 this.refreshWatching();
+                this.refreshGroupsVisibility();
                 this.buildFormOutput();
                 this.triggerInput();
                 this.formDataValue = Utils.encodeFormData(this.formOutput);
@@ -185,6 +204,23 @@
             },
             getScope() {
                 return this.id + (this.formObject ? this.formObject.name : '');
+            },
+            refreshGroupsVisibility() {
+                for (let i = 0; i < this.groupsList.length; i++) {
+                    let group = this.groupsList[i];
+                    if (group.visible !== true) {
+                        jexl.eval(group.visible, this.formValue).then((value) => {
+                            this.groupsVisibility[group.name] = value == true;
+                            this.$forceUpdate();
+                        });    
+                    } else {
+                        this.groupsVisibility[group.name] = true;
+                    }
+                }
+                this.$forceUpdate();
+            },
+            isGroupVisible(group) {
+                return this.groupsVisibility[group.name];
             }
         },
         watch: {

@@ -10,19 +10,21 @@ export default class Breadcrumb extends BaseElement {
         this.breadcrumbEl = this.mainEl.querySelector(`breadcrumbs breadcrumb[name="${breadcrumbName}"]`);
         this.name = this.breadcrumbEl.getAttribute('name');
         this.parent = this.breadcrumbEl.getAttribute('parent') ? this.builder.getBreadcrumb(this.breadcrumbEl.getAttribute('parent')) : null;
-        this.text = this.breadcrumbEl.getAttribute('text');
+        this.originalText = this.breadcrumbEl.getAttribute('text');
+        this.text = this.originalText;
+        this.url = this.originalUrl;
         this.route = this.breadcrumbEl.getAttribute('route') ? this.builder.getRoute(this.breadcrumbEl.closest('app'), this.breadcrumbEl.getAttribute('route')) : null;
-        this.url = this.route ? this.route.url : null;
+        this.originalUrl = this.route ? this.route.url : '';
         return this;
     }
 
     compile(context = {}) {
-        this.text = this._replaceText(this.text, context);
-        this.url = this._replaceText(this.route.url, context);
+        this.text = this._replaceText(this.originalText, context);
+        this.url = this._replaceText(this.originalUrl, context);
         var parent = this.parent;
         while (parent) {
-            parent.text = this._replaceText(parent.text, context);
-            parent.url = this._replaceText(parent.route.url, context);
+            parent.text = this._replaceText(parent.originalText, context);
+            parent.url = this._replaceText(parent.originalUrl, context);
             parent = parent.parent;
         }
     }

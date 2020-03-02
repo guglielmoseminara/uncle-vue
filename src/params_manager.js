@@ -39,7 +39,6 @@ export default class ParamsManager {
                 }
             }
         }
-        console.log(params, paramsObject);
         return paramsObject;
     }
 }
