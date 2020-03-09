@@ -1,4 +1,5 @@
 import { BaseElement } from './index';
+import { List } from 'collections/list';
 
 export default class View extends BaseElement {
 
@@ -13,6 +14,6 @@ export default class View extends BaseElement {
     }
 
     getPage() {
-        return this.builder.getPage(this.viewEl);
+        return this.viewEl.querySelector('page') ? this.builder.getPage(this.viewEl) : null;
     }
 }

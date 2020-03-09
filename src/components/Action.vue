@@ -27,7 +27,9 @@
                 type: Boolean
             },
             params: {
-                default: {}
+                default: () => {
+                    return {}
+                }
             }
         },
         created() {

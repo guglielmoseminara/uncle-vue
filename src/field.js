@@ -14,7 +14,8 @@ export default class Field extends BaseElement {
         }
         this.parentEl = parentEl;
         this.name = fieldName;
-        this.text = this.fieldEl.getAttribute('text') != null ? this.fieldEl.getAttribute('text') : (this.fieldEl.innerHTML || '');
+        const languageProvider = this.serviceManager.getLanguageProvider();
+        this.text = this.fieldEl.getAttribute('text') != null ? languageProvider.parse(this.fieldEl.getAttribute('text')) : (languageProvider.parse(this.fieldEl.innerHTML) || '');
         this.type = this.fieldEl.getAttribute('type');
         this.validator = this.fieldEl.getAttribute('validator');
         this.value = this.fieldEl.getAttribute('value');
@@ -23,7 +24,7 @@ export default class Field extends BaseElement {
         this.disabled = this.fieldEl.getAttribute('disabled') == 'true' || false;
         this.widget = this.fieldEl.getAttribute('widget');
         this.format = this.fieldEl.getAttribute('format');
-        this.placeholder = this.fieldEl.getAttribute('placeholder');
+        this.placeholder = this.fieldEl.getAttribute('placeholder') ? languageProvider.parse(this.fieldEl.getAttribute('placeholder')) : null;
         this.limit = this.fieldEl.getAttribute('limit') ? parseInt(this.fieldEl.getAttribute('limit')) : false;
         this.icon = this.fieldEl.getAttribute('icon');
         this.alias = this.fieldEl.getAttribute('alias');

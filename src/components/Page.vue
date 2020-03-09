@@ -6,21 +6,21 @@
     export default {
         props: {
             pageObject: {
-                type: Object,
-                required: true
+                type: Object
             }
         },
-        data() {
-            return {
-                item: null
-            }
+        created() {
+            this.init();
         },
         methods: {
+            init() {},
             getComponents(className = null) {
-                return this.pageObject.getComponents(className);
-            },
-            itemLoaded(item) {
-                this.item = item
+                return this.pageObject ? this.pageObject.getComponents(className) : [];
+            }
+        },
+        watch: {
+            pageObject() {
+                this.init();
             }
         }
     }

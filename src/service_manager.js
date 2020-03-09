@@ -60,6 +60,14 @@ export default class ServiceManager {
         return this.eventEmitter;
     }
 
+    setValidatorProvider(validatorProvider) {
+        this.validatorProvider = validatorProvider;
+    }
+
+    getValidatorProvider() {
+        return this.validatorProvider;
+    }
+
     registerService(name, service) {
         this.services[name] = service;
     }

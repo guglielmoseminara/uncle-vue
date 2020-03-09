@@ -29,11 +29,13 @@ export default class Breadcrumb extends BaseElement {
         }
     }
 
-    _replaceText(text, context) {
+    _replaceText(text, context = {}) {
         let matches = text.match(/\{(.*?)\}/g);
         for (let match in matches) { 
             let variable = matches[match].match(/\{(.*)\}/)[1];
-            text = text.replace(matches[match], context[variable]);
+            if (context && context[variable]) {
+                text = text.replace(matches[match], context[variable]);
+            }
         }
         return text;
     }

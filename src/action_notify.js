@@ -8,7 +8,8 @@ export default class ActionNav extends Action {
 
     build(actionName) {
         super.build(actionName);
-        this.text = this.actionEl.getAttribute('text');
+        const languageProvider = this.serviceManager.getLanguageProvider();
+        this.text = languageProvider.parse(this.actionEl.getAttribute('text'));
         this.state = this.actionEl.getAttribute('state');
         return this;
     }

@@ -9,7 +9,10 @@
                 type: String
             },
             params: {
-                type: Object
+                type: Object,
+                default: () => {
+                    return {};
+                }
             }
         },
         created() {
@@ -25,9 +28,7 @@
         },
         methods: {
             compile() {
-                if (this.params) {
-                    this.breadcrumbObject.compile(this.params);
-                }
+                this.breadcrumbObject.compile(this.params);
             }
         },
         watch: {

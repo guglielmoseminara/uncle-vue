@@ -9,8 +9,7 @@ export default class Page extends BaseElement {
 
     build(viewEl) {
         this.pageEl = viewEl.querySelector('page');
-        this.name = this.pageEl.getAttribute('name');
-        this.type = this.pageEl.getAttribute('type');
+        this.component = this.pageEl.getAttribute('component');
         var elements = this.pageEl.getElementsByTagName('*');
         this.components = new List(Array.from(elements).map((element) => {
             return this.builder.build(element.tagName, element.getAttribute('name'));

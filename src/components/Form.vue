@@ -31,6 +31,9 @@
                 }, {});
                 this.groupsList = this.formObject.getGroups();
                 this.actionsList = this.formObject.getActions();
+                this.submitActionItem = this.actionsList.find((action) => {
+                    return action.submit;
+                });
                 this.$uncle.getApp().serviceManager.getEventEmitter().$on('resetFormEvent:'+this.formObject.name, async () => {
                     await this.init();
                     this.submitted = false;
@@ -44,12 +47,14 @@
                 formOutput: {},
                 formDataValue: {},
                 formObject: {},
+                formErrors: {},
                 fieldsList: [],
                 fieldsObject: {},
                 groupsList: [],
                 actionsList: [],
                 submitted: false,
                 validated: false,
+                loading: false,
                 item: this.itemObj || {},
                 groupsVisibility: {},
                 id: Math.random().toString(36).substring(2, 15),
@@ -113,7 +118,6 @@
             },
             formUpdate(field, value) {
                 this.$stateManager.setScoped(this.getScope(), field.name, value);
-                //this.updateFormValue(field, value);
             },
             updateFormValue(field, value) {
                 this.formValue[field.name] = value;
@@ -180,9 +184,10 @@
             },
             async submit() {
                 var response = null;
-                if (this.formObject.action) {
-                    this.formObject.action.setRequestParams(this.formDataValue);
-                    response = await this.formObject.action.execute();
+                const submitAction = this.formObject.action || this.submitActionItem.action;
+                if (submitAction) {
+                    submitAction.setRequestParams(this.formDataValue);
+                    response = await submitAction.execute();
                 }
                 return response;
             },
@@ -196,11 +201,32 @@
                 }
                 return field;
             },
+            startSubmit() {
+                this.submitted = true;
+            },
+            stopSubmit() {
+                this.submitted = false;
+            },
             isSubmitted() {
                 return this.submitted;
             },
+            startValidate() {
+                this.validated = true;
+            },
+            stopValidate() {
+                this.validated = false;
+            },
             isValidated() {
                 return this.validated;
+            },
+            startLoading() {
+                this.loading = true;
+            },
+            stopLoading() {
+                this.loading = false;
+            },
+            isLoading() {
+                return this.loading;
             },
             getScope() {
                 return this.id + (this.formObject ? this.formObject.name : '');
@@ -221,14 +247,41 @@
             },
             isGroupVisible(group) {
                 return this.groupsVisibility[group.name];
+            },
+            async validate() {
+                if(this.formObject.validatorService) {
+                    const errors = await this.formObject.validatorService.validate(this.formValue, {
+                        scope: this.getScope()
+                    });
+                    this.formErrors = {...errors, ...this.formErrors };
+                } else {
+                    return true;
+                }
+            },
+            getFieldName(field) {
+                return this.getScope()+'_'+field.name;
+            },
+            isErrorsVisible(field) {
+                return this.isSubmitted() && this.isValidated() && this.formErrors[this.getFieldName(field)];
+            },
+            async reset() {
+                this.stopValidate();
+                this.stopSubmit();
+                await this.init();
+            },
+            getFormErrors() {
+                return this.formErrors;
+            },
+            hasFormErrors() {
+                return Object.keys(this.formErrors).length > 0;
+            },
+            resetFormErrors() {
+                this.formErrors = {};
             }
         },
         watch: {
             value: function() {
                 this.initValue();
-            },
-            formValue: function () {
-                // this.$emit('input', this.formValue);
             },
             params: function() {
                 this.loadItem();

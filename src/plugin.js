@@ -1,4 +1,5 @@
-import { Loader, ServiceRouter, Cookie, StateManager} from './index';
+import { Loader, ServiceRouter, Cookie, StateManager, LanguageProvider } from './index';
+import { ViewComponent } from './components';
 
 export default {
     install(Vue, options) {
@@ -9,11 +10,14 @@ export default {
         const env = parser.getEnv();
         const serviceRouter = new ServiceRouter(options.router);
         const stateManager = new StateManager();
+        const languageProvider = new LanguageProvider();
         app.serviceManager.setRouter(serviceRouter);
         app.serviceManager.setCookie(Cookie);
         app.serviceManager.setStateManager(stateManager);
+        app.serviceManager.setLanguageProvider(languageProvider);
         Vue.prototype.$stateManager = stateManager;
-        Vue.prototype.$uncle = function() {
+        Vue.prototype.$languageProvider = languageProvider;
+        const uncle = function() {
             return {
                 getApp: function() {
                     return app;
@@ -85,8 +89,56 @@ export default {
                 getRoutes: function() {
                     var routes = app.getRoutes();
                     return this._parseRoutes(routes);
+                },
+                initRoutes: function() {
+                    var routes = this.getRoutes();
+                    const includeComponents = (routes) => {
+                        return routes.map((route) => {
+                            route.component = ViewComponent;
+                            if (route.children) {
+                                route.children = includeComponents(route.children);
+                            }
+                            if (route.action) {
+                                var service = app.serviceManager.getService(route.action.service);
+                                route.beforeEnter = service[route.action.method];
+                            }
+                            return route;
+                        });
+                    }
+                    routes = includeComponents(routes);
+                    options.router.addRoutes(routes);
+                },
+                registerViews() {
+                    const ViewsContext = require.context('@/views', false, /\.vue$/i);
+                    ViewsContext.keys().forEach((key) => {
+                        const viewName = key.replace(/(\.\/|\.vue)/g, '');
+                        Vue.component(viewName, ViewsContext(key).default);
+                    });
+                },
+                registerServices() {
+                    const app = this.getApp();
+                    const ServicesContext = require.context('@/services', false, /\.js$/i);
+                    ServicesContext.keys().forEach((key) => {
+                        const service = ServicesContext(key).default;
+                        app.serviceManager.registerService(service.name, new service(uncle));
+                    });
+                },
+                registerComponents() {
+                    const ComponentsContext = require.context('@/components', false, /\.vue$/i);
+                    ComponentsContext.keys().forEach((key) => {
+                        const componentName = key.replace(/(\.\/|\.vue)/g, '');
+                        const component = ComponentsContext(key).default;
+                        Vue.component(componentName, component);
+                    });
+                },
+                bootstrap: function() {
+                    this.registerViews();
+                    this.registerServices();
+                    this.registerComponents();
+                    this.initRoutes();
                 }
             }
         }();
+        Vue.prototype.$uncle = uncle;
     }
 }

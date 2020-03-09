@@ -12,6 +12,7 @@ export default class Form extends BaseElement {
         this.name = formName;
         this.title = this.formEl.getAttribute('title');
         this.action = this.formEl.getAttribute('action') ? this.builder.getAction(this.formEl.getAttribute('action')) : null;
+        this.validatorService = this.formEl.getAttribute('validator-service') ? this.serviceManager.getService(this.formEl.getAttribute('validator-service')) : null;
         return this;
     }
 
