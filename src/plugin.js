@@ -1,4 +1,4 @@
-import { Loader, ServiceRouter, Cookie, StateManager, LanguageProvider } from './index';
+import { Loader, ServiceRouter, Cookie, StateManager, LanguageProvider, Utils } from './index';
 import { ViewComponent } from './components';
 
 export default {
@@ -119,8 +119,9 @@ export default {
                     const app = this.getApp();
                     const ServicesContext = require.context('@/services', false, /\.js$/i);
                     ServicesContext.keys().forEach((key) => {
+                        const serviceName = Utils.snake2Pascal(key.replace(/(\.\/|\.js)/g, ''));
                         const service = ServicesContext(key).default;
-                        app.serviceManager.registerService(service.name, new service(uncle));
+                        app.serviceManager.registerService(serviceName, new service(uncle));
                     });
                 },
                 registerComponents() {
