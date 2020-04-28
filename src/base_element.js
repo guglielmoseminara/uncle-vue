@@ -26,4 +26,9 @@ export default class BaseElement {
         this.className = className;
         return this;
     }
+
+    setParser(parser) {
+        this.parser = parser;
+        return this;
+    }
 }

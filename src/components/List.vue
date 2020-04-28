@@ -46,6 +46,9 @@
                 return this.fieldsList.find((field) => {
                     return field.type == 'actions-list';
                 });
+            },
+            itemsList() {
+                return typeof window === 'undefined' ? this.$uncle.getStateManager().getScoped('ssr', `list:${this.list}`) : this.asyncItems;
             }
         },
         async created() {
@@ -66,7 +69,8 @@
                     itemsList = this.items;
                     this.totalItems = this.itemsList.length;
                 }
-                this.itemsList = itemsList;
+                this.asyncItems = itemsList;
+                this.$forceUpdate();
                 this.loading = false;
                 this.$emit('itemsLoaded', this.itemsList);
             },
@@ -98,13 +102,13 @@
         },
         data() {
             return {
-                itemsList: [],
                 selectedPage: 1,
                 totalItems: 0,
                 ordersList: [],
                 selectedAll: false,
                 selectedIndexes: {},
                 loading: false,
+                asyncItems: [],
             }
         },
         watch: {

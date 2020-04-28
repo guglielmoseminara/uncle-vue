@@ -1,26 +1,12 @@
-import { Builder } from './index';
-
 export default class Parser {
 
-    constructor() {
-        this.parser = new DOMParser();
+    setConfig(config) {
+        this.uncleConfig = config;
     }
 
-    parseXML(xml) {
-        this.xml = this.parser.parseFromString(xml, 'text/xml');
-        this.builder = new Builder(this.xml.querySelector('uncle'));
+    setApp(appName) {
+        this.appName = appName;
     }
 
-    getApp(appName) {
-        return this.builder.getApp(appName);
-    }
-
-    getApi(apiName) {
-        return this.builder.getApi(apiName);
-    }
-
-    getEnv() {
-        return this.builder.getEnv();
-    }
-
+    init() {}
 }

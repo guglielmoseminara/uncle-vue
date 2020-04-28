@@ -1,10 +1,19 @@
 {
   "name": "uncle-vue",
-  "version": "1.0.41",
+  "version": "1.0.46",
   "description": "An Uncle implementation for vue",
-  "main": "index.js",
+  "main": "dist/uncle-vue.umd.js",
+  "browser": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "build:bundle": "vue-cli-service build --target lib --name uncle-vue ./index.js",
+    "watch:bundle": "vue-cli-service build --target lib --name uncle-vue ./index.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guglielmoseminara/uncle-vue"
   },
   "keywords": [
     "uncle",
@@ -18,13 +27,27 @@
     "collections": "^5.1.9",
     "dot-object": "^1.9.0",
     "jexl": "^2.2.2",
+    "jsdom": "^16.2.1",
     "moment": "^2.24.0",
+    "require-context": "^1.1.0",
+    "vue": "^2.6.10",
     "vue-async-computed": "^3.7.0"
+  },
+  "devDependencies": {
+    "@vue/cli": "3.9.0",
+    "@vue/cli-plugin-babel": "3.9.0",
+    "@vue/cli-plugin-eslint": "3.9.0",
+    "@vue/cli-service": "3.9.0",
+    "webpack-node-externals": "^1.7.2"
   },
   "eslintConfig": {
     "root": true,
     "env": {
+      "browser": true,
       "node": true
+    },
+    "globals": {
+      "window": true
     },
     "extends": [
       "plugin:vue/essential",

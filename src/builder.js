@@ -19,10 +19,8 @@ import {
     TagBuilder,
     ApiBuilder,
     ItemBuilder,
-    LabelBuilder,
     ServiceManager,
     ParamsManager,
-    Tab,
     Form,
     Page,
     Method,
@@ -37,14 +35,14 @@ import {
  
 export default class Builder {
 
-    constructor(mainEl) {
-        this.mainEl = mainEl;
-        this.fieldBuilder = new FieldBuilder();
-        this.actionBuilder = new ActionBuilder();
+    constructor(parser) {
+        this.parser = parser;
+        this.mainEl = this.parser.getMain();
+        this.fieldBuilder = this._initElementBuilder(new FieldBuilder());
+        this.actionBuilder = this._initElementBuilder(new ActionBuilder());
         this.tagBuilder = new TagBuilder();
-        this.apiBuilder = new ApiBuilder();
-        this.itemBuilder = new ItemBuilder();
-        this.labelBuilder = new LabelBuilder();
+        this.apiBuilder = this._initElementBuilder(new ApiBuilder());
+        this.itemBuilder = this._initElementBuilder(new ItemBuilder());
         this.serviceManager = new ServiceManager();
         this.paramsManager = new ParamsManager(this.serviceManager);
         this.sdk = new Sdk();
@@ -138,10 +136,6 @@ export default class Builder {
         return this._getElement(this.actionBuilder.getAction(this.mainEl, actionName), actionName);
     }
 
-    getTab(parentEl, tabName) {
-        return this._getElement(new Tab(), parentEl, tabName);
-    }
-
     getForm(formName) {
         return this._getElement(new Form(), formName);
     }
@@ -178,23 +172,25 @@ export default class Builder {
         return this._getElement(new Response(), apiEl, responseName);
     }
 
-    getRequest(requestName) {
-        return this._getElement(new Request(), requestName);
+    getRequest(apiEl, requestName) {
+        return this._getElement(new Request(), apiEl, requestName);
     }
 
     getHeader(parentEl, headerName) {
         return this._getElement(new Header(), parentEl, headerName);
     }
 
-    getLabel(parentEl) {
-        return this._getElement(this.labelBuilder.getLabel(parentEl), parentEl);
-    }
-
     _initElement(instance){
         return instance.setMainElement(this.mainEl)
+                .setParser(this.parser)
                 .setBuilder(this)
                 .setServiceManager(this.serviceManager)
                 .setParamsManager(this.paramsManager);
+    }
+
+    _initElementBuilder(instance){
+        return instance
+                .setParser(this.parser)
     }
 
     _getElement(instance, ...params) {

@@ -1,36 +1,25 @@
-import UncleConfig from '../../../uncle.config.js';
-/*const path = require('path');
-console.log(process.env.CONFIG_UNCLE_FILE);
-console.log(path.join(process.env.CONFIG_UNCLE_FILE, "uncle.config.js"));
-let UncleConfig = require(path.join(process.env.CONFIG_UNCLE_FILE, "uncle.config.js"));*/
-//var UncleConfig = require("~/uncle.config.js");
-
-import { Parser } from './index';
+import { ParserXMLSdk , Builder } from './index';
 
 export default class Loader {
 
     constructor() {
-        this.parser = new Parser();
-    }
-
-    parse() {
-        this.parser.parseXML(this.uncleConfig, 'text/xml');
+        this.parser = new ParserXMLSdk();
     }
 
     init(options = {}) {
-        if (!this.options) {
-            this._setOptions(options);
-        }
-        this.uncleConfig = UncleConfig.xmlConfig;
-        this.parse();
+        this._setOptions(options);
+        this.parser.setConfig(this.options.xml);
+        this.parser.setApp(this.options.app);
+        this.parser.init();
+        this.builder = new Builder(this.parser);
     }
     
     getParser() {
         return this.parser;
     }
 
-    loadView(view) {
-        return require(this.options.viewPath+'/'+view+'.vue').default;
+    getBuilder() {
+        return this.builder;
     }
 
     _setOptions(options) {

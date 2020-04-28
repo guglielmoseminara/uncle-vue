@@ -10,7 +10,7 @@
                 required: true
             }
         },
-        mounted() {
+        created() {
             this.navObject = this.$uncle.getNav(this.nav);
         },
         data() {
