@@ -239,7 +239,7 @@ export default class ParserXMLSdk extends Parser {
     }
 
     getListPagination(list) {
-        return this.parser.getChild(view, 'pagination');
+        return this.parser.getChild(list, 'pagination');
     }
 
     getApiResource(api, resourceName) {
