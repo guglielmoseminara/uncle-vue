@@ -1,4 +1,5 @@
 import { BaseElement } from '../index';
+import DotObject from 'dot-object';
 
 export default class Breadcrumb extends BaseElement { 
 
@@ -35,8 +36,9 @@ export default class Breadcrumb extends BaseElement {
         let matches = text.match(/\{(.*?)\}/g);
         for (let match in matches) { 
             let variable = matches[match].match(/\{(.*)\}/)[1];
-            if (context && context[variable]) {
-                text = text.replace(matches[match], context[variable]);
+            let picked = DotObject.pick(variable, context);
+            if (context && picked) {
+                text = text.replace(matches[match], picked);
             }
         }
         return text;

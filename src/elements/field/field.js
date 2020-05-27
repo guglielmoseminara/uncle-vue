@@ -1,4 +1,5 @@
 import { BaseElement } from '../../index';
+import jexl from 'jexl';
 
 export default class Field extends BaseElement { 
 
@@ -26,6 +27,7 @@ export default class Field extends BaseElement {
         this.sortable = this.parser.getAttribute(this.fieldEl, 'sortable') || false;
         this.disabled = this.parser.getAttribute(this.fieldEl, 'disabled') == 'true' || false;
         this.widget = this.parser.getAttribute(this.fieldEl, 'widget');
+        this.hidden = this.parser.getAttribute(this.fieldEl, 'hidden');
         this.format = this.parser.getAttribute(this.fieldEl, 'format');
         this.placeholder = placeholderAttribute ? languageProvider.parse(placeholderAttribute) : null;
         this.limit = limitAttribute ? parseInt(limitAttribute) : false;
@@ -36,6 +38,7 @@ export default class Field extends BaseElement {
         this.disableLabel =  this.parser.getAttribute(this.fieldEl, 'disable-label') == 'true';
         this.symbol = this.parser.getAttribute(this.fieldEl, 'symbol') || '';
         this.formatter = this.parser.getElementFormatter(this.fieldEl) ? this.builder.getFieldFormatter(this.fieldEl) : null;
+        this.getFields();
         return this;
     }
 
@@ -75,6 +78,17 @@ export default class Field extends BaseElement {
 
     getDefault() {
         return null;
+    }
+
+    async isHidden(context) {
+        var conditionResult = false;
+        try {
+            conditionResult = await jexl.eval(this.hidden, context);
+            console.log(this.hidden, conditionResult);
+        } catch(e) {
+            conditionResult = false;
+        }
+        return conditionResult;
     }
 
 } 

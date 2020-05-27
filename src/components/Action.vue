@@ -45,17 +45,22 @@
                 const confirmFlag = this.confirm;
                 let executeFlag = true;
                 if (confirmFlag) {
-                    executeFlag = confirm('Are you sure?');
-                }
-                if (executeFlag) {
-                    try {
-                        return await this.actionObject.execute(this.params);
-                    } catch(e) {
-                        console.log(e);
-                    }
+                    await this.checkConfirm();
+                } else {
+                    await this.onConfirmation();
                 }
                 this.$forceUpdate();
             },
+            async checkConfirm() {
+                return true;
+            },
+            async onConfirmation() {
+                try {
+                    return await this.actionObject.execute(this.params);
+                } catch(e) {
+                    console.log(e);
+                }
+            }
         }
     }
 </script>

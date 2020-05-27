@@ -13,6 +13,7 @@ export default class ActionSdk extends Action {
         this.method = this.builder.getMethod(this.parser.getAttribute(this.actionEl, 'method'));
         this.api = this.builder.getApi(this.method.api);
         this.store = this.parser.getAttribute(this.actionEl, 'store');
+        this.filterParams = this.parser.getAttribute(this.actionEl, 'filter-params');
         this.request = null;
         return this;
     }
@@ -23,12 +24,30 @@ export default class ActionSdk extends Action {
 
     async executeChild(params = {}) {
         const sdk = this.builder.getSdk();
+        params = this._filterParams(params);
         params = this._buildParams(params);
         params = await this._checkConditions(params);
         const result = await sdk.execute(this.api, this.method, params);
         const stateManager = this.serviceManager.getStateManager();
         stateManager.set(this.store, result);
         return result;
+    }
+
+    _filterParams(params) {
+        if (this.filterParams) {
+            const paramsNames = this.getParams().map((param) => {
+                return param.name;
+            });
+            params = Object.keys(params).reduce((newParams, paramName) => {
+                console.log(paramName, paramsNames.indexOf(paramName));
+                if (paramsNames.indexOf(paramName) !== -1) {
+                    newParams[paramName] = params[paramName];
+                }
+                return newParams;
+            }, {});
+            console.log(params);
+        }
+        return params;
     }
 
     _buildParams(params) {

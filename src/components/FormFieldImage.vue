@@ -10,7 +10,8 @@
         extends: FormField,
         props: {
             hasGallery: {
-                type: Boolean
+                type: Boolean,
+                default: true
             },
             hasModal: {
                 type: Boolean

@@ -22,7 +22,7 @@ export default class ParamsManager {
                 if (val) {
                     paramsObject[param.name] = val;
                 }
-            } else if (param.value) {
+            } else if (param.value || param.value == '') {
                 paramsObject[param.name] = param.value;
             } 
             if (param.default && !paramsObject[param.name]) {

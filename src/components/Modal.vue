@@ -18,7 +18,9 @@
             } else if(this.modalObj) {
                 this.modalObject = this.modalObj;
             }
-
+            this.$uncle.getApp().serviceManager.getEventEmitter().$on('closeModalEvent:'+this.modalObject.name, async () => {
+                this.close();
+            });
         },
         computed: {
             modalName() {
@@ -28,7 +30,8 @@
         methods: {
             getComponents(className = null) {
                 return this.modalObject.getComponents(className);
-            }
+            },
+            close() {}
         },
         data() {
             return {

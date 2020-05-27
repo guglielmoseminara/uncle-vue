@@ -13,6 +13,9 @@
             },
             params: {
                 type: Object
+            },
+            itemObj: {
+                type: Object
             }
         },
         prop: ['value'],
@@ -24,8 +27,10 @@
                 this.actionsList = this.summaryObject.getActions();
                 this.initValue();
             }
-            await this.loadItem();
-            this.$emit('itemLoaded', this.item);
+            await this.init();
+            this.$uncle.getApp().serviceManager.getEventEmitter().$on('refreshSummaryEvent:'+this.summaryObject.name, async () => {
+                await this.init();
+            });
         },
         data() {
             return {
@@ -51,12 +56,46 @@
             },
             async loadItem() {
                 var item = {};
-                if (!this.item) {
+                if (this.summary && !this.itemObj) {
                     item = await this.summaryObject.setParams(this.params).getItem();
                 } else {
-                    item = this.item;
+                    item = this.itemObj;
                 }
                 this.item = item;
+            },
+            async init() {
+                await this.loadItem();
+                this.$emit('itemLoaded', this.item);
+                await this.filterActionsList();
+                await this.filterFieldsList();
+            },
+            async filterActionsList() {
+                if (this.actionsList) {
+                    for (let a in this.actionsList) {
+                        const isHidden = await this.actionsList[a].isHidden(this.item);
+                        this.actionsList[a].isHiddenCondition = isHidden;
+                    }
+                    this.$forceUpdate();
+                }
+            },
+            async filterFieldsList() {
+                if (this.fieldsList) {
+                    for (let f in this.fieldsList) {
+                        const isHidden = await this.fieldsList[f].isHidden(this.item);
+                        this.fieldsList[f].isHiddenCondition = isHidden;
+                    }
+                    this.$forceUpdate();
+                }
+                if (this.groupsList) {
+                    for (let g in this.groupsList) {
+                        const fieldsList = this.groupsList[g].getFields();
+                        for (let f in fieldsList) {
+                            const isHidden = await this.groupsList[g].fields[f].isHidden(this.item);
+                            this.groupsList[g].fields[f].isHiddenCondition = isHidden;
+                        }
+                    }
+                    this.$forceUpdate();
+                }
             }
         },
         watch: {

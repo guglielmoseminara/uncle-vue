@@ -50,6 +50,7 @@
         },
         watch: {
             formValue(value) {
+                console.log(value, this.fieldObject.item.valueField);
                 if (value) {
                     this.resourceValue = value[this.fieldObject.item.valueField];
                 } else {

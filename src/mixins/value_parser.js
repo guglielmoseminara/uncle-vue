@@ -13,13 +13,7 @@ export default {
             }
             return value;
         },
-        getValue(item, field) {
-            var path = '';
-            if (field.bind) {
-                path = field.bind;
-            } else {
-                path = field.name;
-            }
+        getValueByType(field, item, path) {
             var value = null;
             const type = field.type;
             if (type == 'text' || type == 'datetime' || type == 'date') {
@@ -40,12 +34,27 @@ export default {
                 var dateFromValue = this.formatValue(this.getSingleItem(item, type, dateFromPath), dateFromField);
                 var dateToValue = this.formatValue(this.getSingleItem(item, type, dateToPath), dateToField);
                 value = [dateFromValue, dateToValue];
+            } else if (type == 'custom') {
+                const fields = field.getFields();
+                if (fields.length > 0) {
+                    value = fields.reduce((obj, field) => {
+                        obj[field.name] = this.getValueByType(field, item, field.bind ? field.bind : field.name);
+                        return obj;
+                    }, {});
+                } else {
+                    value = this.getSingleItem(item, type, path);
+                    value = this.formatValue(value, field);
+                }
             }
             else {
                 value = this.getSingleItem(item, type, path);
                 value = this.formatValue(value, field);
             }
             return value;
+        },
+        getValue(item, field) {
+            const path = field.bind ? field.bind : field.name;
+            return this.getValueByType(field, item, path);
         },
         formatValue(value, field) {
             if (field.type == 'datetime') {
