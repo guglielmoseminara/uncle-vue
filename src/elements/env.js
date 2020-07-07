@@ -10,7 +10,7 @@ export default class Env extends BaseElement {
         this.envEl = this.parser.getEnv();
         if (this.envEl) {
             this.variables = Array.from(this.parser.getElementVariables(this.envEl)).reduce((variables, item) => {
-                variables[this.parser.getAttribute(item)] = item.innerHTML;
+                variables[this.parser.getAttribute(item, 'name')] = item.innerHTML;
                 return variables;
             }, {});    
         }
