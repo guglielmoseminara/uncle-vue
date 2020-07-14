@@ -84,7 +84,6 @@ export default class Field extends BaseElement {
         var conditionResult = false;
         try {
             conditionResult = await jexl.eval(this.hidden, context);
-            console.log(this.hidden, conditionResult);
         } catch(e) {
             conditionResult = false;
         }

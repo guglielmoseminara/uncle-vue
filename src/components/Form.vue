@@ -71,6 +71,7 @@
                 });
                 await this.loadItem();
                 this.$emit('itemLoaded', this.item);
+                await this.filterFieldsList();
                 //this.initValue();
             },
             initValue() {
@@ -83,6 +84,25 @@
                     }
                 }
                 this.updateLoop();
+            },
+            async filterFieldsList() {
+                if (this.fieldsList) {
+                    for (let f in this.fieldsList) {
+                        const isHidden = await this.fieldsList[f].isHidden(this.formValue);
+                        this.fieldsList[f].isHiddenCondition = isHidden;
+                    }
+                    this.$forceUpdate();
+                }
+                if (this.groupsList) {
+                    for (let g in this.groupsList) {
+                        const fieldsList = this.groupsList[g].getFields();
+                        for (let f in fieldsList) {
+                            const isHidden = await this.groupsList[g].fields[f].isHidden(this.formValue);
+                            this.groupsList[g].fields[f].isHiddenCondition = isHidden;
+                        }
+                    }
+                    this.$forceUpdate();
+                }
             },
 
             getDotField(item, fieldName) {
@@ -119,12 +139,13 @@
             formUpdate(field, value) {
                 this.$stateManager.setScoped(this.getScope(), field.name, value);
             },
-            updateFormValue(field, value) {
+            async updateFormValue(field, value) {
                 this.formValue[field.name] = value;
                 this.setFormImages();
-                this.updateLoop();
+                await this.updateLoop();
             },  
-            updateLoop() {
+            async updateLoop() {
+                await this.filterFieldsList();
                 this.refreshWatching();
                 this.refreshGroupsVisibility();
                 this.buildFormOutput();

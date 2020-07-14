@@ -14,7 +14,6 @@ export default class ActionEvent extends Action {
     executeChild(params = null) {
         const eventEmitter = this.serviceManager.getEventEmitter();
         this._replaceName(params);
-        console.log(this.name);
         eventEmitter.$emit(this.name, params);
         return true;
     }
