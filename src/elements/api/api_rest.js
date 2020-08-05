@@ -34,7 +34,7 @@ export default class ApiRest extends Api {
                 request = Utils.decodeFormData(request);
                 encode = true;
             }
-            var data = route.method == 'get' ? {} : _.omit(request, replacedParams);
+            var data = route.method == 'get' ? {} : this._remap(_.omit(request, replacedParams));
             if (encode) {
                 data = Utils.encodeFormData(data);
             }    
@@ -175,4 +175,15 @@ export default class ApiRest extends Api {
             return {};
         }
     }
+
+    _remap(obj){
+        return Object.keys(obj).reduce((newObject, key) => {{
+            var newKey = key.replace(/\.(\w+)/, '[$1]');
+            newObject[newKey] = obj[key];
+            if(_.isObject(newObject[newKey])){
+                newObject[newKey] = this._remap(newObject[newKey]);
+            }
+            return newObject;
+        }}, {});
+      }
 }

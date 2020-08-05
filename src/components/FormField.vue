@@ -36,6 +36,7 @@
                 return this.$iconsProvider.get(this.fieldObject.icon);
             },
             isErrorsVisible(fieldName) {
+                console.log(this.showErrorsFlag, this.formErrors[fieldName]);
                 return (this.showErrorsFlag && this.formErrors[fieldName])
             },
             getFieldName(field) {

@@ -1,6 +1,6 @@
 {
   "name": "uncle-vue",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "An Uncle implementation for vue",
   "main": "dist/uncle-vue.umd.js",
   "browser": "index.js",

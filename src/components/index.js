@@ -27,6 +27,7 @@ export { default as FormFieldEnumComponent } from './FormFieldEnum.vue';
 export { default as FormFieldDateRangeComponent } from './FormFieldDateRange.vue';
 export { default as FormFieldResourceComponent } from './FormFieldResource.vue';
 export { default as FormFieldResourceManyComponent } from './FormFieldResourceMany.vue';
+export { default as FormFieldObjectComponent } from './FormFieldObject.vue';
 export { default as FormGroupComponent } from './FormGroup.vue';
 export { default as SummaryGroupComponent } from './SummaryGroup.vue';
 export { default as SummaryComponent } from './Summary.vue';
