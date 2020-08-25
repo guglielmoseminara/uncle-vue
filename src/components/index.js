@@ -23,6 +23,7 @@ export { default as FormFieldContainerComponent } from './FormFieldContainer.vue
 export { default as FormFieldComponent } from './FormField.vue';
 export { default as FormFieldTextComponent } from './FormFieldText.vue';
 export { default as FormFieldImageComponent } from './FormFieldImage.vue';
+export { default as FormFieldFileComponent } from './FormFieldFile.vue';
 export { default as FormFieldEnumComponent } from './FormFieldEnum.vue';
 export { default as FormFieldDateRangeComponent } from './FormFieldDateRange.vue';
 export { default as FormFieldResourceComponent } from './FormFieldResource.vue';
