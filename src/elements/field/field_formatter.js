@@ -39,7 +39,6 @@ export default class FieldFormatter extends BaseElement {
         for (let i = 0; i < fields.length; i++) {
             let field = fields[i];
             let value = itemValue[field.name];
-            console.log(field.name, field.type, value, itemValue);
             if (field.bind) {
                 value = DotObject.pick(field.bind, itemValue);
             }

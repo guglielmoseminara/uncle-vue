@@ -32,12 +32,20 @@ import {
     Modal,
     Breadcrumb,
  } from './index';
+
+import moment from 'moment';
+
  
 export default class Builder {
 
-    constructor(parser) {
+    constructor(parser, options) {
         this.parser = parser;
         this.mainEl = this.parser.getMain();
+        this.momentManager = moment;
+        if (options.locale) {
+            require('moment/locale/'+options.locale+'.js');
+            this.momentManager().locale(options.locale);
+        }
         this.fieldBuilder = this._initElementBuilder(new FieldBuilder());
         this.actionBuilder = this._initElementBuilder(new ActionBuilder());
         this.tagBuilder = new TagBuilder();
@@ -185,7 +193,8 @@ export default class Builder {
                 .setParser(this.parser)
                 .setBuilder(this)
                 .setServiceManager(this.serviceManager)
-                .setParamsManager(this.paramsManager);
+                .setParamsManager(this.paramsManager)
+                .setMomentManager(this.momentManager);
     }
 
     _initElementBuilder(instance){

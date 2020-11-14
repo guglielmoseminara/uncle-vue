@@ -39,13 +39,11 @@ export default class ActionSdk extends Action {
                 return param.name;
             });
             params = Object.keys(params).reduce((newParams, paramName) => {
-                console.log(paramName, paramsNames.indexOf(paramName));
                 if (paramsNames.indexOf(paramName) !== -1) {
                     newParams[paramName] = params[paramName];
                 }
                 return newParams;
             }, {});
-            console.log(params);
         }
         return params;
     }

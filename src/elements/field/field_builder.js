@@ -8,6 +8,8 @@ import {
     FieldGeoAddress,
     FieldNumber,
     FieldAction,
+    FieldDateTime,
+    FieldDate,
 } from './index';
 
 import { BaseBuilder } from '../../index'; 
@@ -34,6 +36,10 @@ export default class FieldBuilder extends BaseBuilder{
             return new FieldNumber();
         } else if (type == 'action') {
             return new FieldAction();
+        } else if (type == 'datetime') {
+            return new FieldDateTime();
+        } else if (type == 'date') {
+            return new FieldDate();
         } else if (type == 'custom') {
             return new FieldCustom(); 
         }

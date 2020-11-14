@@ -90,4 +90,8 @@ export default class Field extends BaseElement {
         return conditionResult;
     }
 
+    getValueFormatted(value) {
+        return value;
+    }
+
 } 

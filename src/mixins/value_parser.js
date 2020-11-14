@@ -1,5 +1,6 @@
 import DotObject from 'dot-object';
-import moment from 'moment';
+//import moment from 'moment';
+var moment = require('moment');
 
 export default {
     methods: {
@@ -31,8 +32,8 @@ export default {
                 var dateToField = fields[1];
                 var dateFromPath = dateFromField.bind ? dateFromField.bind : dateFromField.name;
                 var dateToPath = dateToField.bind ? dateToField.bind : dateToField.name;
-                var dateFromValue = this.formatValue(this.getSingleItem(item, type, dateFromPath), dateFromField);
-                var dateToValue = this.formatValue(this.getSingleItem(item, type, dateToPath), dateToField);
+                var dateFromValue = this.formatValue(this.getSingleItem(item, dateFromField.type, dateFromPath), dateFromField);
+                var dateToValue = this.formatValue(this.getSingleItem(item, dateToField.type, dateToPath), dateToField);
                 value = [dateFromValue, dateToValue];
             } else if (type == 'custom') {
                 const fields = field.getFields();
@@ -57,13 +58,7 @@ export default {
             return this.getValueByType(field, item, path);
         },
         formatValue(value, field) {
-            if (field.type == 'datetime') {
-                return field.format == 'hh:mm' ? moment().startOf('day').add(value, 'minutes').format('HH:mm') : value;
-            } else if (field.type == 'date') {
-                return value ? moment(value, "YYYY-MM-DD").format(field.format) : null;
-            } else {
-                return value;
-            }
+            return field.getValueFormatted(value);
         }
     }
 }

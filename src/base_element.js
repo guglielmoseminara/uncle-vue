@@ -31,4 +31,9 @@ export default class BaseElement {
         this.parser = parser;
         return this;
     }
+
+    setMomentManager(moment) {
+        this.momentManager = moment;
+        return this;
+    }
 }

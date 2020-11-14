@@ -180,7 +180,7 @@ export default class ApiRest extends Api {
         return Object.keys(obj).reduce((newObject, key) => {{
             var newKey = key.replace(/\.(\w+)/, '[$1]');
             newObject[newKey] = obj[key];
-            if(_.isObject(newObject[newKey])){
+            if(_.isObject(newObject[newKey]) && (!newObject[newKey] instanceof File) && (!newObject[newKey] instanceof Blob)){
                 newObject[newKey] = this._remap(newObject[newKey]);
             }
             return newObject;

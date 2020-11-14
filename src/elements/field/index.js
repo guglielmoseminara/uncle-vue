@@ -9,3 +9,5 @@ export { default as FieldResourceMany } from './field_resource_many';
 export { default as FieldGeoAddress } from './field_geoaddress';
 export { default as FieldCustom } from './field_custom';
 export { default as FieldActionList } from './field_action_list';
+export { default as FieldDate } from './field_date';
+export { default as FieldDateTime } from './field_datetime';

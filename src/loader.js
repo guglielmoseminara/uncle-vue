@@ -11,7 +11,7 @@ export default class Loader {
         this.parser.setConfig(this.options.xml);
         this.parser.setApp(this.options.app);
         this.parser.init();
-        this.builder = new Builder(this.parser);
+        this.builder = new Builder(this.parser, this.options);
     }
     
     getParser() {

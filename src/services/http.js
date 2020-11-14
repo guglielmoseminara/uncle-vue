@@ -31,7 +31,6 @@ export default class Http {
             let res = await axios.post(url, data, config);
             return res.data;
         } catch(e) {
-            console.log(e);
             return this._handleError(e);
         }
     }
