@@ -15,13 +15,18 @@
             },
             hasModal: {
                 type: Boolean
+            },
+            hasMultiple: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
             return {
                 files: [],
                 hasGalleryVisible: this.hasGallery,
-                hasModalVisible: this.hasModal
+                hasModalVisible: this.hasModal,
+                hasMultipleUpload: this.hasMultiple
             }
         },
         methods: {
@@ -43,22 +48,30 @@
             },
             initFile() {
                 //TODO: implementare il caso di array di immagini dove formValue è un vettore
-                var base_image = new Image();
-                base_image.crossOrigin="anonymous";
-                base_image.onload = function(){
-                    var canvas = document.createElement('canvas');
-                    var context = canvas.getContext('2d');
-                    canvas.width = base_image.width;
-                    canvas.height = base_image.height;
-                    context.drawImage(base_image, 0, 0);
-                    var blob = this.dataURItoBlob(canvas.toDataURL());
-                    this.files.push({
-                        "url": this.formValue,
-                        "blob": URL.createObjectURL(blob),
-                        'file': blob
-                    });
-                }.bind(this);
-                base_image.src = this.formValue;
+                var filesList = [];
+                if (this.hasMultiple) {
+                    filesList = this.formValue;
+                } else {
+                    filesList = [this.formValue];
+                }
+                for (let f = 0; f < filesList.length; f++) {
+                    var base_image = new Image();
+                    base_image.crossOrigin="anonymous";
+                    base_image.onload = function(){
+                        var canvas = document.createElement('canvas');
+                        var context = canvas.getContext('2d');
+                        canvas.width = base_image.width;
+                        canvas.height = base_image.height;
+                        context.drawImage(base_image, 0, 0);
+                        var blob = this.dataURItoBlob(canvas.toDataURL());
+                        this.files.push({
+                            "url": filesList[f],
+                            "blob": URL.createObjectURL(blob),
+                            'file': blob
+                        });
+                    }.bind(this);
+                    base_image.src = filesList[f];
+                }
             },
             inputFilter: function (newFile, oldFile, prevent) {
                     if (newFile && !oldFile) {
@@ -80,7 +93,11 @@
 
         watch: {
             files: function () {
-                this.formValue = this.files[0];
+                if (this.hasMultiple) {
+                    this.formValue = this.files;    
+                } else {
+                    this.formValue = this.files[0];
+                }
                 this.triggerInput();
             },
             value: function (value) {
