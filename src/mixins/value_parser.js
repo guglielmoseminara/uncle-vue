@@ -5,7 +5,8 @@ var moment = require('moment');
 export default {
     methods: {
         getItemValue(item, fieldName) {
-            return DotObject.pick(fieldName, item);
+            const value = DotObject.pick(fieldName, item);
+            return value ? value : null;
         },
         getSingleItem(item, type, fieldName) {
             var value = this.getItemValue(item, fieldName);
