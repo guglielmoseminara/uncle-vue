@@ -11,6 +11,12 @@ export default class Nav extends BaseElement {
         const navItemEls = this.parser.getElementNavItemsOrGrouped(this.navEl);
         this.navItems = Array.from(navItemEls).map((navItem) => {
             return this.builder.getNavItem(this.navEl, this.parser.getAttribute(navItem, 'name'));
+        }).sort((navItem) => {
+            if (navItem.sortOrder) {
+                return -parseInt(navItem.sortOrder);
+            } else {
+                return 1;
+            }
         });
         return this;
     }

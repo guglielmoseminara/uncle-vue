@@ -16,7 +16,9 @@ export default class List extends BaseElement {
         this.selectable = this.parser.getAttribute(this.listEl, 'selectable') == 'true';
         this.selectable_id = this.parser.getAttribute(this.listEl, 'selectable-id') || 'id';
         this.pagination = this.parser.getListPagination(this.listEl) ? this.builder.getPagination(this.listEl) : null;
-        this.item = this.builder.getItem(this.listEl);
+        if (this.parser.getElementItems(this.listEl)) {
+            this.item = this.builder.getItem(this.listEl);
+        }
         this.rows = this.builder.getRows(this.listEl);
         this.text = this.parser.getAttribute(this.listEl, 'text') || '';
         this.ssr = this.parser.getAttribute(this.listEl, 'ssr');
