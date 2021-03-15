@@ -23,7 +23,7 @@
   "author": "Guglielmo Seminara",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "collections": "^5.1.9",
     "dot-object": "^1.9.0",
     "jexl": "^2.2.2",
