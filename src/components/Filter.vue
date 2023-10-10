@@ -79,7 +79,7 @@
                             }
                             return previous;
                         } else if (row.type == 'number' && row.widget == 'slider') {
-                            return previous.concat({name:row.name, text:row.text + ': '+row.min+' - ' + filter + ' '+row.symbol});
+                            return previous.concat({name:row.name, text:row.text + ': '+filter + ' '+row.symbol});
                         } else {
                             return previous.concat({name:row.name, text:row.text});
                         }
@@ -97,7 +97,7 @@
                         } else if (row.type == 'boolean') {
                             previous[row.name] = true;
                         } else if (row.type == 'number' && row.widget == 'slider') {
-                            previous[row.name] = [row.min, filter];
+                            previous[row.name] = filter;
                         } else {
                             previous[row.name] = defaultValue;
                         }
