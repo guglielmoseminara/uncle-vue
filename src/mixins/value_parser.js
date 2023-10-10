@@ -6,7 +6,7 @@ export default {
     methods: {
         getItemValue(item, fieldName) {
             const value = DotObject.pick(fieldName, item);
-            return value ? value : null;
+            return (value || value == '0') ? value : null;
         },
         getSingleItem(item, type, fieldName) {
             var value = this.getItemValue(item, fieldName);
